@@ -1,0 +1,40 @@
+page-login {
+    .appBackground {
+        background-image:url(/assets/imgs/ottobackground.xs.jpg);
+        background-position:center center;
+        background-repeat:no-repeat;
+        background-size:cover;
+        position:relative;
+    }
+    .logo {
+        bottom:5%;
+        left:50%;
+        position:absolute;
+        transform:translateX(-50%);
+        width:200px;
+    }
+    .card {
+        background-color:rgba(255,255,255,.5);
+        margin:0;
+        left:50%;
+        position:absolute;
+        top:50%;
+        transform:translateX(-50%) translateY(-50%);
+    }
+    .card .item {
+        background:transparent;
+    }
+    .card .item-input .label {
+        color:#333333;
+    }
+    .card .button {
+        margin-top:15px;
+    }
+    .card .pwdreset {
+        color:#004595;
+        float:right;
+        font-weight:bold;
+        margin:15px 0;
+        text-decoration:none;
+    }
+}

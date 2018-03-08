@@ -1,0 +1,47 @@
+<!--
+  Generated template for the OfferPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons class="buttons-left">
+            <button ion-button icon-start color="primary">
+                <ion-icon name="folder-open"></ion-icon>
+                Abrir
+            </button>
+        </ion-buttons>
+        <ion-title>Oferta</ion-title>
+        <ion-buttons class="buttons-right">
+            <button ion-button icon-end color="primary">
+                Guardar
+                <ion-icon name="star"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding class="offerBackground">
+    <ion-fab right bottom>
+        <button ion-fab color="secondary" (click)="presentAddLineModal()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-buttons class="buttons-left">
+            <button ion-button icon-start color="primary">
+                <ion-icon name="options"></ion-icon>
+                Descuentos
+            </button>
+        </ion-buttons>
+        <ion-buttons class="buttons-right">
+            <button ion-button icon-end color="primary">
+                Enviar
+                <ion-icon name="paper-plane"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

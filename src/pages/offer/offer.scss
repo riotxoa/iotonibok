@@ -1,0 +1,29 @@
+page-offer {
+    ion-title {
+        display:inline-block;
+        left:0;
+        position:absolute;
+        text-align:center;
+        text-transform:uppercase;
+        top:50%;
+        transform:translateY(-50%);
+        width:100%;
+        z-index:-1;
+    }
+    .buttons-left,
+    .buttons-right {
+        z-index:1;
+    }
+    .buttons-left {
+        float:left;
+    }
+    .buttons-right {
+        float:right;
+    }
+    .offerBackground {
+        background-image:url(/assets/imgs/offerbackground.jpg);
+        background-position:top center;
+        background-repeat:no-repeat;
+        background-size:contain;
+    }
+}

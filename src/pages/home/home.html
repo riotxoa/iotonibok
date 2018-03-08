@@ -1,17 +1,44 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+    <ion-toolbar #nav color="primary">
+        <button ion-button menuToggle icon-only>
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title color="white">Home</ion-title>
+    </ion-toolbar>
 </ion-header>
 
+<ion-menu [content]="nav">
+
+    <ion-header>
+        <ion-toolbar>
+            <ion-title>Pages</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        <ion-list>
+            <button ion-item>
+                Tururura
+            </button>
+            <button ion-item>
+                Tururure
+            </button>
+            <button ion-item>
+                Turururi
+            </button>
+            <button ion-item>
+                Turururo
+            </button>
+            <button ion-item>
+                Turururu
+            </button>
+        </ion-list>
+    </ion-content>
+
+</ion-menu>
+
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+    <h2>Welcome to {{userDetails.username}}</h2>
+    <h3>Email: {{userDetails.email}}</h3>
+    <button ion-button color="primary" (click)="logout()">Logout</button>
 </ion-content>
