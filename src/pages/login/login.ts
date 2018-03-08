@@ -56,17 +56,29 @@ export class LoginPage {
                console.log("Not valid user credentials");
            }
      }, (err) => {
-       // Error log
+         console.log("[login] error: " + err);
+         this.userData.username = "";
+         this.userData.password = "";
+         this.loginfail();
      });
+  }
+
+  loginfail() {
+      let alert = this.alertCtrl.create({
+          title: 'Autenticación fallida',
+          subTitle: 'Introduzca un nombre de usuario y contraseña correctos',
+          buttons: ['Aceptar']
+      });
+      alert.present();
   }
 
   pwdreset() {
       let alert = this.alertCtrl.create({
-      title: 'Resetear contraseña',
-      subTitle: 'Próximamente',
-      buttons: ['Aceptar']
-    });
-    alert.present();
+          title: 'Resetear contraseña',
+          subTitle: 'Próximamente',
+          buttons: ['Aceptar']
+      });
+      alert.present();
   }
 
 }
