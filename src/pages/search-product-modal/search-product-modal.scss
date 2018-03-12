@@ -1,0 +1,17 @@
+page-search-product-modal {
+    .modalBackground::before {
+        color:darkgray;
+        content:"Introduzca los primeros caracteres de una referencia y seleccione un producto";
+        font-size:18px;
+        left:50%;
+        line-height:1.5;
+        position:absolute;
+        text-align:center;
+        top:50%;
+        transform:translateX(-50%) translateY(-50%);
+        width:75%;
+    }
+    .searchItem {
+        font-size:12px;
+    }
+}

@@ -26,4 +26,52 @@ page-offer {
         background-repeat:no-repeat;
         background-size:contain;
     }
+
+    ion-card.selected {
+        background-color:lightblue;
+    }
+    ion-card-content.card-content {
+        padding:5px;
+    }
+    ion-card-content .reference,
+    ion-card-content .price,
+    ion-card-content .price_o {
+        font-size:14px;
+    }
+    ion-card-content .reference {
+        color:black;
+        font-weight:bold;
+    }
+    ion-card-content .price {
+        color:darkgray;
+        text-align:right;
+    }
+    ion-card-content .price_o {
+        font-weight:bold;
+        text-align:right;
+    }
+    ion-card-content .price_o.accepted {
+        color:green;
+    }
+    ion-card-content .price_o.rejected {
+        color:red;
+    }
+    ion-card-content .description,
+    ion-card-content .amount {
+        padding:0 5px;
+    }
+    ion-card-content .description {
+        color:gray;
+        font-size:10px;
+    }
+    ion-card-content .amount{
+        color:dimgray;
+        font-size:12px;
+        text-align:right;
+    }
+    ion-card-content ion-icon {
+        color:dimgray;
+        padding-left:10px;
+        padding-right:3px;
+    }
 }

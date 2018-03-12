@@ -1,5 +1,5 @@
 <!--
-  Generated template for the AddLineModalPage page.
+  Generated template for the SearchProductModalPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,10 +7,10 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Nueva línea de Pedido</ion-title>
+    <ion-title>Seleccionar Producto</ion-title>
     <ion-buttons start>
         <button ion-button (click)="dismiss()">
-            <span ion-text color="primary" showWhen="ios">Cancel</span>
+            <span ion-text color="primary" showWhen="ios">Cancelar</span>
             <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
         </button>
     </ion-buttons>
@@ -23,10 +23,10 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="modalBackground">
     <ion-list>
-        <ion-item *ngFor="let item of searchResults" (click)="selectItem(item)">
-            {{ item }}
+        <ion-item *ngFor="let item of searchResults" (click)="selectItem(item.index)" class="searchItem">
+            {{ item.reference }}
         </ion-item>
     </ion-list>
 </ion-content>

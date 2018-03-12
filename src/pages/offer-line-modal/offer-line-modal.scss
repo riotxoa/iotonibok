@@ -1,0 +1,39 @@
+page-offer-line-modal {
+    .scroll-content {
+        padding:16px!important;
+    }
+    ion-card-title,
+    .card-subtitle {
+        color:#FFFFFF!important;
+        text-align:center;
+    }
+    ion-card-title.accepted,
+    .card-subtitle.accepted {
+        background-color:green;
+    }
+    ion-card-title.rejected,
+    .card-subtitle.rejected {
+        background-color:red;
+    }
+    ion-card-title {
+        font-weight:bold;
+        margin:0!important;
+    }
+    .colTitle * {
+        font-weight:bold;
+    }
+    ion-col.accepted,
+    ion-col.accepted * {
+        color:green;
+    }
+    ion-col.rejected,
+    ion-col.rejected * {
+        color:red;
+    }
+    hr {
+        margin:15px 0;
+    }
+    button.button-full-md {
+        margin-top:15px;
+    }
+}

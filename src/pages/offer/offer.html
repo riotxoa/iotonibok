@@ -23,10 +23,37 @@
 </ion-header>
 
 
-<ion-content padding class="offerBackground">
+<ion-content padding class="{{ backgroundClass }}">
     <ion-fab right bottom>
-        <button ion-fab color="secondary" (click)="presentAddLineModal()"><ion-icon name="add"></ion-icon></button>
+        <button ion-fab color="secondary" (click)="presentSearchProductModal()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
+
+    <ion-card *ngFor="let row of rows" class="card card-md {{ row.selected ? 'selected' : ''}}">
+        <ion-card-content (tap)="viewRowDetail(row.order)" (swipe)="selectRow(row.order)">
+            <ion-row>
+                <ion-col class="reference" col-6 justify-content-start>
+                    {{ row.product.reference }}
+                </ion-col>
+                <ion-col class="price" col-3 justify-content-end>
+                    {{ row.product.price }}&euro;
+                </ion-col>
+                <ion-col class="price_o col {{ row.valoracion ? 'accepted' : 'rejected' }}" col-3 justify-content-end>
+                    {{ row.price_o }}&euro;
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="description" col-6 justify-content-start>
+                    {{ row.product.name }}
+                </ion-col>
+                <ion-col class="amount" col-6 justify-content-end>
+                    <ion-icon name="md-ribbon"></ion-icon>{{ row.gift }}
+                    <ion-icon name="md-trending-down"></ion-icon>{{ row.discount }}%
+                    <ion-icon name="basket"></ion-icon>{{ row.amount }}
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+
 </ion-content>
 
 <ion-footer>

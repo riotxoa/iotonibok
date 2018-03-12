@@ -8,11 +8,13 @@ import { LoginPage } from '../pages/login/login';
 import { MainPage } from '../pages/main/main';
 import { OfferPage } from '../pages/offer/offer';
 import { KitsPage } from '../pages/kits/kits';
-import { AddLineModalPage } from '../pages/add-line-modal/add-line-modal';
+import { SearchProductModalPage } from '../pages/search-product-modal/search-product-modal';
+import { OfferLineModalPage } from '../pages/offer-line-modal/offer-line-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { RestServiceProvider } from '../providers/rest-service/rest-service';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
     MainPage,
     OfferPage,
     KitsPage,
-    AddLineModalPage,
+    SearchProductModalPage,
+    OfferLineModalPage,
   ],
   imports: [
     BrowserModule,
@@ -35,13 +38,15 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
     MainPage,
     OfferPage,
     KitsPage,
-    AddLineModalPage,
+    SearchProductModalPage,
+    OfferLineModalPage,
   ],
   providers: [
     StatusBar,
     SplashScreen, AuthServiceProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthServiceProvider
+    AuthServiceProvider,
+    RestServiceProvider
   ]
 })
 export class AppModule {}

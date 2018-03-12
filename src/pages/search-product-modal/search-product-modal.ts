@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, Platform, ViewController } from 'ionic-angular';
 
 /**
- * Generated class for the AddLineModalPage page.
+ * Generated class for the SearchProductModalPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,10 +10,10 @@ import { IonicPage, NavParams, Platform, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-add-line-modal',
-  templateUrl: 'add-line-modal.html',
+  selector: 'page-search-product-modal',
+  templateUrl: 'search-product-modal.html',
 })
-export class AddLineModalPage {
+export class SearchProductModalPage {
 
     items;
     searchResults;
@@ -23,7 +23,7 @@ export class AddLineModalPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad AddLineModalPage');
+        console.log('ionViewDidLoad SearchProductModalPage');
     }
 
     getItems(ev) {
@@ -33,7 +33,8 @@ export class AddLineModalPage {
         // if the value is an empty string don't filter the items
         if (val && val.trim() != '') {
             this.searchResults = this.items.filter((item) => {
-                return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+                return (item.reference.toLowerCase().indexOf(val.toLowerCase()) == 0);
+                // return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
         } else {
             this.clearSearchResults();
@@ -45,7 +46,7 @@ export class AddLineModalPage {
     }
 
     selectItem(ev) {
-        console.log("Seleccionar " + JSON.stringify(ev));
+        this.viewCtrl.dismiss(ev);
     }
 
     dismiss() {
