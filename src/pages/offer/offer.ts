@@ -136,10 +136,12 @@ export class OfferPage {
         this.rows.push(data);
     }
 
-    viewRowDetail( index ) {
+    viewRowDetail( order ) {
         this.unselectAllRows();
 
-        var row = this.rows[index-1];
+        // var row = this.rows[index-1];
+        var index = this.rows.findIndex( r => r.order == order );
+        var row = this.rows[index];
 
         let offerLineModal = this.modalCtrl.create(OfferLineModalPage, {row: row, discount: this.state.discount, calcPrice: this.getPriceWithDiscount});
 
