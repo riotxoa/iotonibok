@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { RestServiceProvider } from '../../providers/rest-service/rest-service';
 import { SearchProductModalPage } from '../search-product-modal/search-product-modal';
 import { OfferLineModalPage } from '../offer-line-modal/offer-line-modal';
@@ -35,9 +35,9 @@ export class OfferPage {
     titleClass;
     backgroundClass;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public restService: RestServiceProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public restService: RestServiceProvider, public alertCtrl: AlertController) {
         this.initializeState();
-        this.selected = [];
+        this.selected = 0;
         this.rows = [];
         this.titleClass = "accepted";
         this.backgroundClass = "offerBackground";
@@ -150,15 +150,63 @@ export class OfferPage {
         offerLineModal.present();
     }
 
-    unselectAllRows() {
-        var selectedRows = [];
-        selectedRows = this.rows.filter( r => r.selected == true );
-        console.log("[unsalectAllrows] selectedRows: " + JSON.stringify(selectedRows));
-        selectedRows.map((val,key) => this.rows[val.order-1].selected = false);
+    viewSelectedRow() {
+        var row = this.rows.find( r => r.selected == true );
+
+        this.viewRowDetail( row.order );
     }
 
-    selectRow( index ) {
-        this.rows[index-1].selected = !this.rows[index-1].selected;
+    selectAllRows() {
+        this.rows.map((val,key) => this.rows[key].selected = true);
+
+        this.selected = this.rows.length;
+    }
+
+    unselectAllRows() {
+        var selectedRows = this.rows.filter( r => r.selected == true );
+
+        selectedRows.map((val,key) => this.rows.find( r => r.order == val.order ).selected = false);
+
+        this.selected = 0;
+    }
+
+    deleteRows() {
+        var selectedRows = this.rows.filter( r => r.selected == true );
+
+        selectedRows.map((val,key) => {
+            var index = this.rows.findIndex( r => r.order == val.order );
+            this.rows.splice(index, 1);
+        });
+
+        this.selected = 0;
+    }
+
+    removeSelectedRows() {
+        var confirm = this.alertCtrl.create({
+            title: 'Borrar líneas',
+            message: 'Se va a proceder al borrado de las líneas seleccionadas. ¿Desea continuar?',
+            buttons: [
+                {
+                    text: 'Borrar',
+                    handler: () => {
+                        this.deleteRows();
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                }
+            ]
+        });
+        confirm.present();
+    }
+
+    selectRow( order ) {
+        var row = this.rows.find( r => r.order == order );
+        row.selected = !row.selected;
+
+        var rowsSelected = this.rows.filter( r => r.selected == true );
+        this.selected = rowsSelected.length;
     }
 
 }
