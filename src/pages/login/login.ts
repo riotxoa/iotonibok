@@ -72,13 +72,4 @@ export class LoginPage {
       alert.present();
   }
 
-  pwdreset() {
-      let alert = this.alertCtrl.create({
-          title: 'Resetear contraseña',
-          subTitle: 'Próximamente',
-          buttons: ['Aceptar']
-      });
-      alert.present();
-  }
-
 }
