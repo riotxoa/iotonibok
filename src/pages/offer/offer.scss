@@ -64,7 +64,8 @@ page-offer {
         color:gray;
         font-size:10px;
     }
-    ion-card-content .amount{
+    ion-card-content .amount,
+    ion-footer .totals .amount {
         color:dimgray;
         font-size:12px;
         text-align:right;
@@ -73,5 +74,46 @@ page-offer {
         color:dimgray;
         padding-left:10px;
         padding-right:3px;
+    }
+    ion-footer .totals .amount ion-icon {
+        color:dimgray;
+        padding:0 3px;
+    }
+    ion-footer .totals .amount ion-icon:first-child {
+        padding-left:0;
+    }
+
+    ion-footer .totals {
+        left:50%;
+        position:absolute;
+        text-align:center;
+        top:50%;
+        transform:translateX(-50%) translateY(-50%);
+    }
+    ion-footer .totals .price_o {
+        border-radius:5px;
+        color:white;
+        font-weight:bold;
+        padding:0 15px;
+    }
+    ion-footer .totals .price_o.undefined {
+        background-color:gray;
+    }
+    ion-footer .totals .price_o.accepted {
+        background-color:green;
+    }
+    ion-footer .totals .price_o.rejected {
+        background-color:red;
+    }
+    ion-footer .totals .price {
+        color:gray;
+        font-size:12px;
+    }
+    ion-footer .totals .amount {
+        color:gray;
+        text-align:center;
+    }
+    ion-footer .totals .amount ion-icon {
+        color:gray;
     }
 }

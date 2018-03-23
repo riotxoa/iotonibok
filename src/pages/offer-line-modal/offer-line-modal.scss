@@ -15,6 +15,10 @@ page-offer-line-modal {
     .card-subtitle.rejected {
         background-color:red;
     }
+    ion-card-title.unknown,
+    .card-subtitle.unknown {
+        background-color:gray;
+    }
     ion-card-title {
         font-weight:bold;
         margin:0!important;

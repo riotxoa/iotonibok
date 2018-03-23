@@ -39,7 +39,7 @@
         <button ion-fab color="secondary" (click)="presentSearchProductModal()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
 
-    <ion-card *ngFor="let row of rows" class="card card-md {{ row.selected ? 'selected' : ''}}">
+    <ion-card *ngFor="let row of state.rows" class="card card-md {{ row.selected ? 'selected' : ''}}">
         <ion-card-content (tap)="viewRowDetail(row.order)" (swipe)="selectRow(row.order)">
             <ion-row>
                 <ion-col class="reference" col-6 justify-content-start>
@@ -76,6 +76,17 @@
                 Descuentos
             </button>
         </ion-buttons>
+        <div class="totals">
+            <span class="price_o {{ totalClass }}">{{ state.total_price_o.toFixed(2) }}&nbsp;&euro;</span>
+            <br/>
+            <span class="price">{{ state.total_price.toFixed(2) }}&nbsp;&euro;</span>
+            <br/>
+            <ion-col class="amount" col-6 justify-content-end>
+                <ion-icon name="md-ribbon"></ion-icon>{{ state.gift }}
+                <ion-icon name="md-trending-down"></ion-icon>{{ state.discount }}%
+                <ion-icon name="basket"></ion-icon>{{ state.amount }}
+            </ion-col>
+        </div>
         <ion-buttons class="buttons-right">
             <button ion-button icon-end color="primary">
                 Enviar

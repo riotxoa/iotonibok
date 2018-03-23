@@ -42,7 +42,38 @@ export class RestServiceProvider {
                 },
                 err => {
                     console.log(err);
-                });
+                }
+            );
+        });
+    }
+    getRowValoracion(row) {
+        return new Promise(resolve => {
+            var param = btoa(JSON.stringify(row))
+            this.http.get(apiUrl + 'valoracion/row/' + param, {
+                headers: this.headers,
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+    getOfferValoracion(offer) {
+        return new Promise(resolve => {
+            var param = btoa(JSON.stringify(offer))
+            this.http.get(apiUrl + 'valoracion/offer/' + param, {
+                headers: this.headers,
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
         });
     }
 }
