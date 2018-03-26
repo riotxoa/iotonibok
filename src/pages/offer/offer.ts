@@ -39,9 +39,7 @@ export class OfferPage {
         this.products = [];
         this.searchItems = [];
         this.selected = 0;
-        this.totalClass = "undefined";
-        this.backgroundClass = "offerBackground";
-        // this.total_valoracion = undefined;
+
     }
 
     initializeState() {
@@ -57,11 +55,20 @@ export class OfferPage {
                 return item;
             });
 
-            this.state.discount = 0;
-            this.state.gift = 0;
-            this.state.amount = 1;
-            this.state.total_valoracion = undefined;
-
+            let state = localStorage.getItem('state');
+            if(state) {
+                state = JSON.parse(state);
+                this.state = state;
+                this.backgroundClass = "";
+                this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
+            } else {
+                this.state.discount = 0;
+                this.state.gift = 0;
+                this.state.amount = 1;
+                this.state.total_valoracion = undefined;
+                this.backgroundClass = "offerBackground";
+                this.totalClass = "undefined";
+            }
         });
     }
 
@@ -150,14 +157,6 @@ export class OfferPage {
 
         total_price = total_price * amount;
         total_price_o = total_price_o * amount;
-
-        localStorage.setItem('rows', JSON.stringify(rows));
-        localStorage.setItem('discount', JSON.stringify(discount));
-        localStorage.setItem('gift', JSON.stringify(gift));
-        localStorage.setItem('amount', JSON.stringify(amount));
-        localStorage.setItem('total_price', JSON.stringify(total_price));
-        localStorage.setItem('total_price_o', JSON.stringify(total_price_o));
-        localStorage.setItem('total_valoracion', JSON.stringify(total_valoracion));
 
         this.state.total_price = total_price;
         this.state.total_price_o = total_price_o;
@@ -291,6 +290,8 @@ export class OfferPage {
         this.restService.getOfferValoracion(this.state).then( response => {
             this.totalClass = (response ? "accepted" : "rejected");
             this.state.total_valoracion = response;
+
+            localStorage.setItem('state', JSON.stringify(this.state));
         });
     }
 
