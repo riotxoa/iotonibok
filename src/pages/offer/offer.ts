@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, AlertController }
 import { RestServiceProvider } from '../../providers/rest-service/rest-service';
 import { SearchProductModalPage } from '../search-product-modal/search-product-modal';
 import { OfferLineModalPage } from '../offer-line-modal/offer-line-modal';
+import { OfferDiscountModalPage } from '../offer-discount-modal/offer-discount-modal';
 
 /**
  * Generated class for the OfferPage page.
@@ -25,24 +26,22 @@ export class OfferPage {
         amount: 1,
         total_price: 0,
         total_price_o: 0,
+        total_valoracion: undefined,
     };
     products;
     searchItems;
     selected;
-    titleClass;
     totalClass;
     backgroundClass;
-    total_valoracion;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public restService: RestServiceProvider, public alertCtrl: AlertController) {
         this.initializeState();
         this.products = [];
         this.searchItems = [];
         this.selected = 0;
-        this.titleClass = "accepted";
         this.totalClass = "undefined";
         this.backgroundClass = "offerBackground";
-        this.total_valoracion = undefined;
+        // this.total_valoracion = undefined;
     }
 
     initializeState() {
@@ -61,6 +60,7 @@ export class OfferPage {
             this.state.discount = 0;
             this.state.gift = 0;
             this.state.amount = 1;
+            this.state.total_valoracion = undefined;
 
         });
     }
@@ -119,7 +119,6 @@ export class OfferPage {
 
         this.restService.getRowValoracion(row).then( response => {
             row.valoracion = response;
-            this.titleClass = (row.valoracion ? "accepted" : "rejected");
             this.addRow(row);
         });
     }
@@ -131,6 +130,40 @@ export class OfferPage {
         }
 
         return parseFloat(priceWithDiscount).toFixed(2);
+    }
+
+    refreshRows(discount, gift, amount) {
+        var rows = this.state.rows;
+        var total_price = 0;
+        var total_price_o = 0;
+        var total_valoracion = 0;
+
+        rows.map((val,key) => {
+            var row = this.state.rows[key];
+            var rowDiscount = (row.discount ? row.discount : discount);
+
+            row.price_o = this.getPriceWithDiscount(row.product.price, rowDiscount);
+
+            total_price += parseFloat(row.product.price);
+            total_price_o += parseFloat(row.price_o);
+        });
+
+        total_price = total_price * amount;
+        total_price_o = total_price_o * amount;
+
+        localStorage.setItem('rows', JSON.stringify(rows));
+        localStorage.setItem('discount', JSON.stringify(discount));
+        localStorage.setItem('gift', JSON.stringify(gift));
+        localStorage.setItem('amount', JSON.stringify(amount));
+        localStorage.setItem('total_price', JSON.stringify(total_price));
+        localStorage.setItem('total_price_o', JSON.stringify(total_price_o));
+        localStorage.setItem('total_valoracion', JSON.stringify(total_valoracion));
+
+        this.state.total_price = total_price;
+        this.state.total_price_o = total_price_o;
+        this.state.total_valoracion = total_valoracion;
+
+        this.updateValoracionOffer();
     }
 
     addRow( data ) {
@@ -156,11 +189,28 @@ export class OfferPage {
 
                 this.restService.getRowValoracion(data).then( response => {
                     data.valoracion = response;
-                    this.state.rows[index-1] = data;
+                    this.state.rows[index] = data;
                 });
+            } else {
+                this.incrTotals(row);
             }
         });
         offerLineModal.present();
+    }
+
+    viewOfferDetails() {
+        let offerDiscountModal = this.modalCtrl.create(OfferDiscountModalPage, {offer: this.state});
+
+        offerDiscountModal.onDidDismiss(data => {
+            if( data ) {
+                this.state.amount = data.amount;
+                this.state.gift = data.gift;
+                this.state.discount = data.discount;
+
+                this.refreshRows(data.discount, data.gift, data.amount);
+            }
+        });
+        offerDiscountModal.present();
     }
 
     viewSelectedRow() {
@@ -240,7 +290,7 @@ export class OfferPage {
     updateValoracionOffer() {
         this.restService.getOfferValoracion(this.state).then( response => {
             this.totalClass = (response ? "accepted" : "rejected");
-            this.total_valoracion = response;
+            this.state.total_valoracion = response;
         });
     }
 

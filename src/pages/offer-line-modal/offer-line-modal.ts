@@ -17,6 +17,7 @@ import { RestServiceProvider } from '../../providers/rest-service/rest-service';
 export class OfferLineModalPage {
 
     row;
+    rowDiscount;
     globalDiscount;
     getPriceWithDiscount;
     getRowValoracion;
@@ -25,6 +26,7 @@ export class OfferLineModalPage {
     constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public restService: RestServiceProvider) {
         this.row = navParams.data.row;
         this.globalDiscount = navParams.data.discount;
+        this.rowDiscount = (this.row.discount ? this.row.discount : this.globalDiscount);
         this.getPriceWithDiscount = navParams.data.calcPrice;
         this.cssClass = (this.row.valoracion ? "accepted" : "rejected");
     }

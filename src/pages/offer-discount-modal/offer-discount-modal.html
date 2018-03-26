@@ -1,5 +1,5 @@
 <!--
-  Generated template for the OfferLineModalPage page.
+  Generated template for the OfferDiscountModalPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,7 +7,7 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <ion-title>Nueva línea de Pedido</ion-title>
+        <ion-title>Configuración de Pedido</ion-title>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
                 <span ion-text color="primary" showWhen="ios">Cancel</span>
@@ -23,7 +23,7 @@
     <ion-card>
         <ion-card-content>
 
-            <ion-card-title class="card-title card-title-md {{ cssClass }}">
+            <!-- <ion-card-title class="card-title card-title-md {{ cssClass }}">
                 {{ row.product.reference }}
             </ion-card-title>
             <p class="card-subtitle {{ cssClass }}">{{ row.product.name }}</p>
@@ -50,22 +50,22 @@
                 </ion-col>
             </ion-row>
 
-            <hr/>
+            <hr/> -->
 
             <ion-list>
                 <ion-item>
                     <ion-label stacked>Cantidad</ion-label>
-                    <ion-input type="number" value="{{ row.amount }}" min="1" max="999" (input)="updateAmount($event)"></ion-input>
+                    <ion-input type="number" value="{{ offer.amount }}" min="1" max="999" (input)="updateAmount($event)"></ion-input>
                 </ion-item>
 
                 <ion-item>
                     <ion-label stacked>Descuento (%)</ion-label>
-                    <ion-input type="number" value="{{ rowDiscount }}" min="0" max="100" (input)="updateDiscount($event)"></ion-input>
+                    <ion-input type="number" value="{{ offer.discount }}" min="0" max="100" (input)="updateDiscount($event)"></ion-input>
                 </ion-item>
 
                 <ion-item>
                     <ion-label stacked>Unidades de Regalo</ion-label>
-                    <ion-input type="number" value="{{ row.gift }}" min="0" max="999" (input)="updateGift($event)"></ion-input>
+                    <ion-input type="number" value="{{ offer.gift }}" min="0" max="999" (input)="updateGift($event)"></ion-input>
                 </ion-item>
             </ion-list>
 
