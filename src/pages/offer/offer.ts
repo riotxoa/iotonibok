@@ -243,6 +243,8 @@ export class OfferPage {
             this.state.rows.splice(index, 1);
         });
 
+        this.refreshRows(this.state.discount, this.state.gift, this.state.amount);
+
         this.selected = 0;
     }
 
