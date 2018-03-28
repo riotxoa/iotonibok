@@ -23,35 +23,6 @@
     <ion-card>
         <ion-card-content>
 
-            <!-- <ion-card-title class="card-title card-title-md {{ cssClass }}">
-                {{ row.product.reference }}
-            </ion-card-title>
-            <p class="card-subtitle {{ cssClass }}">{{ row.product.name }}</p>
-
-            <button ion-button full color="light" (click)="getValoracion()">Refrescar</button>
-
-            <hr/>
-
-            <ion-row>
-                <ion-col class="colTitle" align-self-center justify-content-start>
-                    <h3>Precio Tarifa</h3>
-                </ion-col>
-                <ion-col class="colTitle col {{ cssClass }}" align-self-center justify-content-start>
-                    <h3>Precio Oferta</h3>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col align-self-center justify-content-end>
-                    {{ row.product.price }}&nbsp;&euro;
-                </ion-col>
-
-                <ion-col class="col {{ cssClass }}" align-self-center justify-content-end>
-                    {{ row.price_o }}&nbsp;&euro;
-                </ion-col>
-            </ion-row>
-
-            <hr/> -->
-
             <ion-list>
                 <ion-item>
                     <ion-label stacked>Cantidad</ion-label>
@@ -69,7 +40,8 @@
                 </ion-item>
             </ion-list>
 
-            <button class="btn-accept" ion-button full (click)="acceptRow()">Aceptar</button>
+            <button ion-button full color="light" (click)="resetDiscount()">Reiniciar</button>
+            <button class="btn-accept" ion-button full (click)="acceptSettings()">Aceptar</button>
 
         </ion-card-content>
     </ion-card>

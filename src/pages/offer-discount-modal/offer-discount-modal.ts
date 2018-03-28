@@ -32,7 +32,6 @@ export class OfferDiscountModalPage {
         var val = ev.target.value;
         if( val > 0 ) {
             this.offer.amount = val;
-            // this.updateRow();
         }
     }
 
@@ -40,7 +39,6 @@ export class OfferDiscountModalPage {
         var val = ev.target.value;
         if( val > -1 ) {
             this.offer.discount = val;
-            // this.updateRow();
         }
     }
 
@@ -48,31 +46,16 @@ export class OfferDiscountModalPage {
         var val = ev.target.value;
         if( val > -1 ) {
             this.offer.gift = val;
-            // this.updateRow();
         }
     }
 
-    // updateRow() {
-    //     var rowDiscount = (this.row.discount ? this.row.discount : this.globalDiscount);
-    //
-    //     // var row_cost = this.row.product.cost * (parseInt(this.row.amount) + parseInt(this.row.gift));
-    //     // var row_margin = (this.row.price_o - row_cost)*100 / this.row.price_o;
-    //
-    //     this.row.product.price = (this.row.product.price_unit * this.row.amount).toFixed(2);
-    //     this.row.price_o = this.getPriceWithDiscount(this.row.product.price, rowDiscount);
-    //     // this.row.valoracion = (row_margin >= this.row.product.margin ? 1 : 0);
-    //
-    //     this.cssClass = "unknown";
-    // }
-    //
-    // getValoracion() {
-    //     this.restService.getRowValoracion(this.row).then( data => {
-    //         this.row.valoracion = data;
-    //         this.cssClass = (this.row.valoracion ? "accepted" : "rejected");
-    //     });
-    // }
+    resetDiscount() {
+        this.offer.amount = 1;
+        this.offer.discount = 0;
+        this.offer.gift = 0;
+    }
 
-    acceptRow() {
+    acceptSettings() {
         this.viewCtrl.dismiss(this.offer);
     }
 
