@@ -28,4 +28,9 @@ export class MainPage {
     console.log('ionViewDidLoad MainPage');
   }
 
+  logout() {
+      localStorage.removeItem('userData');
+      this.navCtrl.popToRoot();
+  }
+
 }
