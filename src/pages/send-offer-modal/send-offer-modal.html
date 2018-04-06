@@ -1,0 +1,128 @@
+<!--
+  Generated template for the OfferDiscountModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>Enviar Oferta</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text color="primary" showWhen="ios">Cancel</span>
+                <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-slides pager>
+
+        <ion-slide class="selectClientBackground">
+            <div class="top">
+                <h2>Seleccionar Cliente</h2>
+            </div>
+            <ion-toolbar>
+                <ion-searchbar (input)="getItems($event)" (ionClear)="clearSearchResults()"></ion-searchbar>
+            </ion-toolbar>
+            <ion-list>
+                <ion-item *ngFor="let item of searchResults" (click)="selectItem(item.index)" class="searchItem">
+                    {{ item.reference }}
+                </ion-item>
+            </ion-list>
+            <ion-card *ngIf="selectedItem">
+                <ion-card-content>
+                    <p><strong>Nombre:</strong></p>
+                    <p>{{ selectedItem.name }}</p>
+                    <hr/>
+                    <p><strong>Dirección:</strong></p>
+                    <p>{{ selectedItem.address }}</p>
+                    <hr/>
+                    <p><strong>Teléfono:</strong></p>
+                    <p>{{ selectedItem.telephone }}</p>
+                    <hr/>
+                    <p><strong>Email:</strong></p>
+                    <p>{{ selectedItem.email }}</p>
+                </ion-card-content>
+            </ion-card>
+            <div class="bottom">
+                <button class="left" ion-button color="light" small outline (click)="dismiss()">Cancelar</button>
+                <button class= "right" ion-button small outline (click)="next()">Siguiente</button>
+            </div>
+        </ion-slide>
+
+        <ion-slide *ngIf="selected">
+            <div class="top">
+                <h2>Añadir Observaciones</h2>
+            </div>
+            <ion-card class="observaciones">
+                <ion-label color="primary" stacked>Observaciones:</ion-label>
+                <ion-textarea type="text" placeholder="Observaciones (Opcional)" (input)="setObservaciones($event)"></ion-textarea>
+            </ion-card>
+            <div class="bottom">
+                <button class="left" ion-button color="light" small outline (click)="back()">Atrás</button>
+                <button class= "right" ion-button small outline (click)="next()">Siguiente</button>
+            </div>
+        </ion-slide>
+
+        <ion-slide *ngIf="selected">
+            <div class="top">
+                <h2>Revisar Oferta</h2>
+            </div>
+            <div class="details-wrap">
+                <ion-card class="details">
+                    <ion-label color="primary" stacked *ngIf="selectedItem">Cliente:</ion-label>
+                    <p *ngIf="selectedItem">{{ selectedItem.name }}</p>
+                    <ion-label color="primary" stacked>Observaciones:</ion-label>
+                    <p>{{ observaciones }}</p>
+                </ion-card>
+                <ion-label color="primary" stacked>Detalle oferta:</ion-label>
+                <ion-card *ngFor="let row of offer.rows" class="offer card card-md }}">
+                    <ion-card-content>
+                        <ion-row>
+                            <ion-col class="reference" col-6 justify-content-start>
+                                {{ row.product.reference }}
+                            </ion-col>
+                            <ion-col class="price" col-3 justify-content-end>
+                                {{ row.product.price }}&euro;
+                            </ion-col>
+                            <ion-col class="price_o col {{ row.authorized ? 'accepted' : 'rejected' }}" col-3 justify-content-end>
+                                {{ row.price_o }}&euro;
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col class="description" col-6 justify-content-start>
+                                {{ row.product.name }}
+                            </ion-col>
+                            <ion-col class="amount" col-6 justify-content-end>
+                                <ion-icon name="md-ribbon"></ion-icon>{{ row.gift }}
+                                <ion-icon name="md-trending-down"></ion-icon>{{ row.discount }}%
+                                <ion-icon name="basket"></ion-icon>{{ row.amount }}
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card class="totals">
+                    <span class="price_o {{ offer.total_valoracion ? 'accepted' : 'rejected' }}">{{ offer.total_price_o.toFixed(2) }}&nbsp;&euro;</span>
+                    <br/>
+                    <span class="price">{{ offer.total_price.toFixed(2) }}&nbsp;&euro;</span>
+                    <br/>
+                    <ion-col class="amount" col-6 justify-content-end>
+                        <ion-icon name="md-ribbon"></ion-icon>{{ offer.gift }}
+                        <ion-icon name="md-trending-down"></ion-icon>{{ offer.discount }}%
+                        <ion-icon name="basket"></ion-icon>{{ offer.amount }}
+                    </ion-col>
+                </ion-card>
+            </div>
+            <div class="bottom">
+                <button class="left" ion-button color="light" small outline (click)="back()">Atrás</button>
+                <button class= "right" ion-button small (click)="send()">Enviar</button>
+            </div>
+        </ion-slide>
+
+    </ion-slides>
+</ion-content>

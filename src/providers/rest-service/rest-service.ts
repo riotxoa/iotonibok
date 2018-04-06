@@ -76,4 +76,28 @@ export class RestServiceProvider {
             );
         });
     }
+    getClients() {
+        return new Promise(resolve => {
+            this.http.get(apiUrl + 'clients', {
+                headers: this.headers,
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+    sendOffer(offer) {
+        return new Promise( (resolve, reject) => {
+            this.http.post(apiUrl + 'orders', offer, { headers: this.headers })
+            .subscribe(res => {
+                resolve(res);
+            }, (err) => {
+                reject(err);
+            });
+        });
+    }
 }

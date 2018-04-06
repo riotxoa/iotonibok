@@ -28,7 +28,7 @@ export class OfferLineModalPage {
         this.globalDiscount = navParams.data.discount;
         this.rowDiscount = (this.row.discount ? this.row.discount : this.globalDiscount);
         this.getPriceWithDiscount = navParams.data.calcPrice;
-        this.cssClass = (this.row.valoracion ? "accepted" : "rejected");
+        this.cssClass = (this.row.authorized ? "accepted" : "rejected");
     }
 
     ionViewDidLoad() {
@@ -67,15 +67,15 @@ export class OfferLineModalPage {
 
         this.row.product.price = (this.row.product.price_unit * this.row.amount).toFixed(2);
         this.row.price_o = this.getPriceWithDiscount(this.row.product.price, rowDiscount);
-        // this.row.valoracion = (row_margin >= this.row.product.margin ? 1 : 0);
+        // this.row.authorized = (row_margin >= this.row.product.margin ? 1 : 0);
 
         this.cssClass = "unknown";
     }
 
     getValoracion() {
         this.restService.getRowValoracion(this.row).then( data => {
-            this.row.valoracion = data;
-            this.cssClass = (this.row.valoracion ? "accepted" : "rejected");
+            this.row.authorized = data;
+            this.cssClass = (this.row.authorized ? "accepted" : "rejected");
         });
     }
 

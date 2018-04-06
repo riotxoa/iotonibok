@@ -48,7 +48,7 @@
                 <ion-col class="price" col-3 justify-content-end>
                     {{ row.product.price }}&euro;
                 </ion-col>
-                <ion-col class="price_o col {{ row.valoracion ? 'accepted' : 'rejected' }}" col-3 justify-content-end>
+                <ion-col class="price_o col {{ row.authorized ? 'accepted' : 'rejected' }}" col-3 justify-content-end>
                     {{ row.price_o }}&euro;
                 </ion-col>
             </ion-row>
@@ -88,7 +88,7 @@
             </ion-col>
         </div>
         <ion-buttons class="buttons-right">
-            <button ion-button icon-end color="primary">
+            <button ion-button icon-end color="primary" (click)="clickSendOffer()">
                 Enviar
                 <ion-icon name="paper-plane"></ion-icon>
             </button>
@@ -123,3 +123,4 @@
     </ion-toolbar>
 
 </ion-footer>
+authorized

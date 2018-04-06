@@ -1,0 +1,190 @@
+page-send-offer-modal {
+    .bottom,
+    .left,
+    .right,
+    .top {
+        position:absolute;
+    }
+    .bottom,
+    .top {
+        width:100%;
+    }
+    .bottom {
+        bottom:40px;
+    }
+    .bottom .left,
+    .bottom .right {
+        bottom:0;
+    }
+    .left {
+        left:0;
+    }
+    .right {
+        right:0;
+    }
+    .top {
+        top:0;
+    }
+
+    .selectClientBackground::before {
+        color:darkgray;
+        content:"Introduzca los primeros caracteres del nombre del cliente y selecciónelo de la lista";
+        font-size:18px;
+        left:50%;
+        line-height:1.5;
+        position:absolute;
+        text-align:center;
+        top:50%;
+        transform:translateX(-50%) translateY(-50%);
+        width:75%;
+        z-index:-1;
+    }
+    .searchItem {
+        font-size:12px;
+    }
+    .swiper-container {
+        height:85vh!important;
+    }
+    .swiper-wrapper {
+        z-index:11;
+    }
+
+    ion-toolbar {
+        position:fixed;
+        top:30px;
+        z-index:9999;
+    }
+    ion-list {
+        height:calc(100% - 187px);
+        overflow:auto;
+        position:fixed;
+        top:87px;
+        width:100%!important;
+        z-index:99;
+    }
+    ion-item {
+        background-color:#F3F3F3!important;
+    }
+
+    ion-card-content {
+        text-align:left;
+    }
+
+    ion-card.observaciones {
+        height:50%;
+        position:absolute;
+        top:40%;
+        transform:translateY(-50%);
+    }
+    ion-card.observaciones ion-textarea {
+        height:75%;
+    }
+    ion-card.observaciones textarea {
+        height:100%;
+    }
+
+
+    .details-wrap {
+        background:#f0f0f0;
+        height:65vh;
+        left:50%;
+        max-width:400px;
+        overflow:auto;
+        position:absolute;
+        top:30px;
+        transform:translateX(-50%);
+        width:100%;
+
+        ion-card.details {
+            padding:5px 15px 15px 15px;
+            text-align:left;
+        }
+
+        ion-card.offer {
+            ion-card-content.card-content {
+                padding:5px;
+            }
+            ion-card-content .reference,
+            ion-card-content .price,
+            ion-card-content .price_o {
+                font-size:14px;
+            }
+            ion-card-content .reference {
+                color:black;
+                font-weight:bold;
+            }
+            ion-card-content .price {
+                color:darkgray;
+                text-align:right;
+            }
+            ion-card-content .price_o {
+                font-weight:bold;
+                text-align:right;
+            }
+            ion-card-content .price_o.accepted {
+                color:green;
+            }
+            ion-card-content .price_o.rejected {
+                color:red;
+            }
+            ion-card-content .description,
+            ion-card-content .amount {
+                padding:0 5px;
+            }
+            ion-card-content .description {
+                color:gray;
+                font-size:10px;
+            }
+            ion-card-content .amount,
+            ion-footer .totals .amount {
+                color:dimgray;
+                font-size:12px;
+                text-align:right;
+            }
+            ion-card-content ion-icon {
+                color:dimgray;
+                padding-left:10px;
+                padding-right:3px;
+            }
+        }
+
+        ion-card.totals {
+            padding:5px;
+
+            .amount ion-icon {
+                color:dimgray;
+                padding:0 3px;
+            }
+            .amount ion-icon:first-child {
+                padding-left:0;
+            }
+            .price_o {
+                border-radius:5px;
+                color:black;
+                font-weight:bold;
+                padding:0 15px;
+            }
+            .price_o.undefined {
+                color:gray;
+            }
+            .price_o.accepted {
+                color:green;
+            }
+            .price_o.rejected {
+                color:red;
+            }
+            .price {
+                color:gray;
+                font-size:12px;
+            }
+            .amount {
+                color:gray;
+                font-size:12px;
+                text-align:center;
+            }
+            .amount ion-icon {
+                color:gray;
+            }
+        }
+    }
+}

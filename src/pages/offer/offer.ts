@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
 import { RestServiceProvider } from '../../providers/rest-service/rest-service';
 import { SearchProductModalPage } from '../search-product-modal/search-product-modal';
 import { OfferLineModalPage } from '../offer-line-modal/offer-line-modal';
 import { OfferDiscountModalPage } from '../offer-discount-modal/offer-discount-modal';
+import { SendOfferModalPage } from '../send-offer-modal/send-offer-modal';
 
 /**
  * Generated class for the OfferPage page.
@@ -28,13 +29,14 @@ export class OfferPage {
         total_price_o: 0,
         total_valoracion: undefined,
     };
+    // state;
     products;
     searchItems;
     selected;
     totalClass;
     backgroundClass;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public restService: RestServiceProvider, public alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public restService: RestServiceProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
         this.initializeState();
         this.products = [];
         this.searchItems = [];
@@ -55,17 +57,20 @@ export class OfferPage {
                 return item;
             });
 
-            let state = localStorage.getItem('state');
-            if(state) {
-                state = JSON.parse(state);
-                this.state = state;
+            if(localStorage.getItem('state')) {
+                this.state = JSON.parse(localStorage.getItem('state'));
                 this.backgroundClass = "";
                 this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
             } else {
-                this.state.discount = 0;
-                this.state.gift = 0;
-                this.state.amount = 1;
-                this.state.total_valoracion = undefined;
+                this.state = {
+                    rows: [],
+                    discount: 0,
+                    gift: 0,
+                    amount: 1,
+                    total_price: 0,
+                    total_price_o: 0,
+                    total_valoracion: undefined,
+                };
                 this.backgroundClass = "offerBackground";
                 this.totalClass = "undefined";
             }
@@ -104,7 +109,7 @@ export class OfferPage {
                 file: null,
             },
             price_o: null,
-            valoracion: undefined,
+            authorized: undefined,
             discount: 0,
             gift: 0,
             selected: false,
@@ -122,10 +127,10 @@ export class OfferPage {
         row.product.file = ((product.file != "" && product.file != 0) ? 1 : 0);
 
         // var row_margin = (row.price_o - (product.cost * row.amount))*100 / row.price_o;
-        // row.valoracion = (row_margin >= product.margin ? 1 : 0);
+        // row.authorized = (row_margin >= product.margin ? 1 : 0);
 
         this.restService.getRowValoracion(row).then( response => {
-            row.valoracion = response;
+            row.authorized = response;
             this.addRow(row);
         });
     }
@@ -187,7 +192,7 @@ export class OfferPage {
                 this.incrTotals(data);
 
                 this.restService.getRowValoracion(data).then( response => {
-                    data.valoracion = response;
+                    data.authorized = response;
                     this.state.rows[index] = data;
                 });
             } else {
@@ -295,6 +300,52 @@ export class OfferPage {
 
             localStorage.setItem('state', JSON.stringify(this.state));
         });
+    }
+
+    clickSendOffer() {
+        if( this.state.rows.length ) {
+            this.viewSendOfferModal();
+        } else {
+            let alert = this.alertCtrl.create({
+                title: 'Enviar oferta',
+                subTitle: 'Debe añadir al menos una línea al pedido para poder enviarlo.',
+                buttons: ['Aceptar']
+            });
+            alert.present();
+        }
+    }
+
+    viewSendOfferModal() {
+        let sendOfferModal = this.modalCtrl.create(SendOfferModalPage, {offer: this.state});
+
+        sendOfferModal.onDidDismiss(data => {
+            if( data ) {
+                let loading = this.loadingCtrl.create({
+                    content: 'Enviando...'
+                });
+                loading.present();
+                this.restService.sendOffer(data).then( response => {
+                    loading.dismiss();
+                    let alert = this.alertCtrl.create({
+                        title: (this.state.total_valoracion ? 'Enviar Pedido' : 'Enviar Consulta'),
+                        subTitle: 'Envío realizado.',
+                        buttons: ['Aceptar']
+                    });
+                    alert.present();
+                })
+                .catch( err => {
+                    console.log("[viewSendOfferModal] error: " + JSON.stringify(err));
+                    loading.dismiss();
+                    let alert = this.alertCtrl.create({
+                        title: 'Enviar oferta',
+                        subTitle: 'Se ha producido un error al registrar la oferta. Consulte con la Gerencia de Ventas el estado del envío y vuelva a intentarlo si procede. ',
+                        buttons: ['Aceptar']
+                    });
+                    alert.present();
+                });
+            }
+        });
+        sendOfferModal.present();
     }
 
 }
