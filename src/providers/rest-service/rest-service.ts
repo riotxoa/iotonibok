@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
-let apiUrl = 'http://localhost:8000/api/';
+// let apiUrl = 'http://localhost:8000/api/';
+let apiUrl = 'http://54.36.99.89/api/';
 
 /*
   Generated class for the RestServiceProvider provider.

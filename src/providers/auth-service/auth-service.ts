@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
 
-let apiUrl = 'http://localhost:8000/';
+// let apiUrl = 'http://localhost:8000/';
+let apiUrl = 'http://54.36.99.89/';
 
 /*
   Generated class for the AuthServiceProvider provider.

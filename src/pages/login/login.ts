@@ -21,8 +21,10 @@ export class LoginPage {
   userData = {
       "username": "",
       "password": "",
-      "client_id": "3",
-      "client_secret": "Aeh9f02sUqukoiNJDtIQIAl2ryn02bOiTy5bXfTg",
+    //   "client_id": "3",
+    //   "client_secret": "Aeh9f02sUqukoiNJDtIQIAl2ryn02bOiTy5bXfTg",
+      "client_id": "2",
+      "client_secret": "WUfwaLPljoVHqL6pHgY8ZOSKtSER9hbQUrrZiJuY",
       "grant_type": "password",
       "scope": "*"
   };
