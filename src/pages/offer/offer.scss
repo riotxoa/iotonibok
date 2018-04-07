@@ -21,10 +21,12 @@ page-offer {
         float:right;
     }
     .offerBackground {
-        background-image:url(/assets/imgs/offerbackground.jpg);
         background-position:top center;
         background-repeat:no-repeat;
         background-size:contain;
+    }
+    .noOfferBackground {
+        background-image:none!important;
     }
 
     ion-card.selected {
@@ -115,5 +117,22 @@ page-offer {
     }
     ion-footer .totals .amount ion-icon {
         color:gray;
+    }
+
+    @media screen and (max-width:355px) {
+        ion-footer {
+            .rowActions ion-buttons {
+                max-width:23%;
+                width:23%;
+            }
+            .button-inner {
+                font-size:13px;
+                font-weight:normal;
+                text-transform:capitalize;
+            }
+            .button-inner > .icon {
+                font-size:20px;
+            }
+        }
     }
 }

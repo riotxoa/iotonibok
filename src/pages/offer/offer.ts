@@ -33,8 +33,8 @@ export class OfferPage {
     products;
     searchItems;
     selected;
-    totalClass;
-    backgroundClass;
+    totalClass = "undefined";
+    backgroundClass = "offerBackground";
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public restService: RestServiceProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
         this.initializeState();
@@ -59,8 +59,10 @@ export class OfferPage {
 
             if(localStorage.getItem('state')) {
                 this.state = JSON.parse(localStorage.getItem('state'));
-                this.backgroundClass = "";
-                this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
+                if( this.state.rows.length ) {
+                    this.backgroundClass = "noOfferBackground";
+                    this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
+                }
             } else {
                 this.state = {
                     rows: [],
@@ -168,10 +170,11 @@ export class OfferPage {
         this.state.total_valoracion = total_valoracion;
 
         this.updateValoracionOffer();
+        localStorage.setItem('state', JSON.stringify(this.state));
     }
 
     addRow( data ) {
-        this.backgroundClass = "";
+        this.backgroundClass = "noOfferBackground";
         this.state.rows.push(data);
         this.incrTotals(data);
     }
@@ -247,6 +250,9 @@ export class OfferPage {
 
             this.state.rows.splice(index, 1);
         });
+
+        this.backgroundClass = (this.state.rows.length ? this.backgroundClass : "offerBackground");
+        this.totalClass = (this.state.rows.length ? this.totalClass : "undefined");
 
         this.refreshRows(this.state.discount, this.state.gift, this.state.amount);
 

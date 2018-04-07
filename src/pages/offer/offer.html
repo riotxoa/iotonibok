@@ -34,7 +34,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding class="{{ backgroundClass }}">
+<ion-content padding class="{{ backgroundClass }}" style="background-image:url(/assets/imgs/offerbackground.jpg)">
     <ion-fab right bottom>
         <button ion-fab color="secondary" (click)="presentSearchProductModal()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
@@ -95,7 +95,7 @@
         </ion-buttons>
     </ion-toolbar>
 
-    <ion-toolbar *ngIf="selected">
+    <ion-toolbar class="rowActions" *ngIf="selected">
         <ion-buttons class="buttons-left">
             <button ion-button icon-start color="subtle" (click)="removeSelectedRows()">
                 <ion-icon name="trash"></ion-icon>
