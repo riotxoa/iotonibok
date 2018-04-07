@@ -3,9 +3,9 @@ import { IonicPageModule } from 'ionic-angular';
 import { SendOfferModalPage } from './send-offer-modal';
 
 @NgModule({
-  declarations: [
-    SendOfferModalPage,
-  ],
+  // declarations: [
+  //   SendOfferModalPage,
+  // ],
   imports: [
     IonicPageModule.forChild(SendOfferModalPage),
   ],

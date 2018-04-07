@@ -13,6 +13,8 @@ import { OfferLineModalPage } from '../pages/offer-line-modal/offer-line-modal';
 import { OfferDiscountModalPage } from '../pages/offer-discount-modal/offer-discount-modal';
 import { SendOfferModalPage } from '../pages/send-offer-modal/send-offer-modal';
 
+// import { HomePage } from '../pages/home/home';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
@@ -29,6 +31,8 @@ import { RestServiceProvider } from '../providers/rest-service/rest-service';
     OfferLineModalPage,
     OfferDiscountModalPage,
     SendOfferModalPage,
+
+    // HomePage,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +50,8 @@ import { RestServiceProvider } from '../providers/rest-service/rest-service';
     OfferLineModalPage,
     OfferDiscountModalPage,
     SendOfferModalPage,
+
+    // HomePage,
   ],
   providers: [
     StatusBar,

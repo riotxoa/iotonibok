@@ -3,9 +3,9 @@ import { IonicPageModule } from 'ionic-angular';
 import { OfferPage } from './offer';
 
 @NgModule({
-  declarations: [
-    OfferPage,
-  ],
+  // declarations: [
+  //   OfferPage,
+  // ],
   imports: [
     IonicPageModule.forChild(OfferPage),
   ],
