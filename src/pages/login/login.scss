@@ -36,4 +36,20 @@ page-login {
         margin:15px 0;
         text-decoration:none;
     }
+
+    .device-not-checked {
+        padding:35px 15px;
+        text-align:center;
+    }
+    .device-not-checked p {
+        color:maroon;
+    }
+    .device-not-checked p:not(:first-child) {
+        margin-top:25px;
+    }
+
+    .toast * {
+        text-align:center;
+        width:100%;
+    }
 }

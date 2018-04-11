@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController } from 'ionic-angular';
-// import { HomePage } from '../home/home';
+import { AlertController, IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+
+import { Clipboard } from '@ionic-native/clipboard';
+
 import { MainPage } from '../main/main';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
@@ -18,6 +20,10 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 })
 export class LoginPage {
   responseData: any;
+  uuid = {
+      value: "XXX"
+  };
+  deviceChecked = false;
   userData = {
       "username": "",
       "password": "",
@@ -29,20 +35,33 @@ export class LoginPage {
       "scope": "*"
   };
 
-  constructor(public navCtrl: NavController, public authService:AuthServiceProvider, public alertCtrl: AlertController) {
-
+  constructor(
+      public navCtrl: NavController,
+      public authService:AuthServiceProvider,
+      public alertCtrl: AlertController,
+      public navPar: NavParams,
+      private clipboard: Clipboard,
+      public toastCtrl: ToastController,
+  ) {
       var uData = JSON.parse(localStorage.getItem('userData'));
-
       if(uData) {
           this.userData.username = uData.username;
       }
+
+      this.uuid.value = JSON.parse(localStorage.getItem('uuid'));
   }
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
+
+    this.authService.postData(this.uuid, 'api/login').then((result) => {
+        this.deviceChecked = (result ? true : false);
+    });
   }
 
-  login(){
+  login() {
       this.authService.postData(this.userData,'oauth/token').then((result) => {
            this.responseData = result;
            if(this.responseData.access_token) {
@@ -58,20 +77,32 @@ export class LoginPage {
                console.log("Not valid user credentials");
            }
      }, (err) => {
-         console.log("[login] error: " + err);
-         this.userData.username = "";
-         this.userData.password = "";
-         this.loginfail();
+         this.loginfail(err);
      });
   }
 
-  loginfail() {
+  loginfail(msg) {
+      console.log("[login] error: " + msg);
+
+      this.userData.username = "";
+      this.userData.password = "";
+
       let alert = this.alertCtrl.create({
           title: 'Autenticación fallida',
           subTitle: 'Introduzca un nombre de usuario y contraseña correctos',
           buttons: ['Aceptar']
       });
       alert.present();
+  }
+
+  copy() {
+      this.clipboard.copy(this.uuid.value);
+      let toast = this.toastCtrl.create({
+          message: 'Código copiado al portapapeles',
+          duration: 1500,
+          cssClass: 'toast'
+      });
+      toast.present();
   }
 
 }

@@ -8,22 +8,31 @@
 <ion-content padding class="appBackground" style="background-image:url(assets/imgs/ottobackground.xs.jpg)">
     <img src="assets/imgs/logo.xs.png" class="logo" />
     <ion-card>
-      <ion-card-content>
-        <ion-list>
 
-          <ion-item>
-            <ion-label stacked>Correo electrónico</ion-label>
-            <ion-input type="text" [(ngModel)]="userData.username"></ion-input>
-          </ion-item>
+        <ion-card-content *ngIf="deviceChecked">
+            <ion-list>
 
-          <ion-item>
-            <ion-label stacked>Contraseña</ion-label>
-            <ion-input type="password" [(ngModel)]="userData.password"></ion-input>
-          </ion-item>
+                <ion-item>
+                    <ion-label stacked>Correo electrónico</ion-label>
+                    <ion-input type="text" [(ngModel)]="userData.username"></ion-input>
+                </ion-item>
 
-          <button ion-button full color="success" (click)="login()">Acceder</button>
+                <ion-item>
+                    <ion-label stacked>Contraseña</ion-label>
+                    <ion-input type="password" [(ngModel)]="userData.password"></ion-input>
+                </ion-item>
 
-        </ion-list>
-      </ion-card-content>
+                <button ion-button full color="success" (click)="login()">Acceder</button>
+
+            </ion-list>
+        </ion-card-content>
+
+        <ion-card-content *ngIf="!deviceChecked" class="device-not-checked">
+            <p>El dispositivo desde el que está intentando iniciar sesión no está registrado en el sistema.</p>
+            <p>Comunique el siguiente código al Administrador del sistema y vuelva a intentarlo:</p>
+            <p><strong>{{ uuid.value }}</strong></p>
+            <button ion-button color="primary" (click)="copy()"><ion-icon name="md-copy" style="margin-right:10px;"></ion-icon>Copiar</button>
+        </ion-card-content>
+
     </ion-card>
   </ion-content>
