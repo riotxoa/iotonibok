@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { RestServiceProvider } from '../../providers/rest-service/rest-service';
 import { SearchProductModalPage } from '../search-product-modal/search-product-modal';
 import { OfferLineModalPage } from '../offer-line-modal/offer-line-modal';
 import { OfferDiscountModalPage } from '../offer-discount-modal/offer-discount-modal';
 import { SendOfferModalPage } from '../send-offer-modal/send-offer-modal';
+import { OpenOfferModalPage } from '../open-offer-modal/open-offer-modal';
 
 /**
  * Generated class for the OfferPage page.
@@ -30,25 +31,37 @@ export class OfferPage {
         total_valoracion: undefined,
     };
     products;
-    searchItems;
+    searchProducts;
     selected;
     totalClass = "undefined";
     backgroundClass = "offerBackground";
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public restService: RestServiceProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public modalCtrl: ModalController,
+        public restService: RestServiceProvider,
+        public alertCtrl: AlertController,
+        public loadingCtrl: LoadingController,
+        public toastCtrl: ToastController,
+    ) {
         this.initializeState();
         this.products = [];
-        this.searchItems = [];
+        this.searchProducts = [];
         this.selected = 0;
 
     }
 
     initializeState() {
+        this.getProducts();
+    }
+
+    getProducts() {
         this.restService.getProducts().then( data => {
 
             this.products = JSON.parse(JSON.stringify(data));
 
-            this.searchItems = this.products.map((val, key) => {
+            this.searchProducts = this.products.map((val, key) => {
                 let item = {
                     index: key,
                     reference: val.reference + " (" + val.description + ")",
@@ -83,7 +96,7 @@ export class OfferPage {
     }
 
     presentSearchProductModal() {
-        let searchProductModal = this.modalCtrl.create(SearchProductModalPage, {items: this.searchItems});
+        let searchProductModal = this.modalCtrl.create(SearchProductModalPage, {items: this.searchProducts});
 
         searchProductModal.onDidDismiss(index => {
             if( index )
@@ -108,7 +121,7 @@ export class OfferPage {
                 file: null,
             },
             price_o: null,
-            authorized: undefined,
+            valoracion: undefined,
             discount: 0,
             gift: 0,
             selected: false,
@@ -123,7 +136,7 @@ export class OfferPage {
         row.product.file = ((product.file != "" && product.file != 0) ? 1 : 0);
 
         this.restService.getRowValoracion(row).then( response => {
-            row.authorized = response;
+            row.valoracion = response;
 
             this.addRow(row);
         });
@@ -188,7 +201,7 @@ export class OfferPage {
                 this.incrTotals(data);
 
                 this.restService.getRowValoracion(data).then( response => {
-                    data.authorized = response;
+                    data.valoracion = response;
                     this.state.rows[index] = data;
                 });
             } else {
@@ -353,4 +366,197 @@ export class OfferPage {
         sendOfferModal.present();
     }
 
+    openOffer() {
+        let openOfferModal = this.modalCtrl.create(OpenOfferModalPage);
+
+        openOfferModal.onDidDismiss(id => {
+            if( id ) {
+                this.loadOffer(id);
+            }
+        });
+
+        openOfferModal.present();
+    }
+
+    loadOffer(id) {
+        let loading = this.loadingCtrl.create({
+            content: 'Cargando...'
+        });
+        loading.present();
+
+        this.restService.openOffer(id).then( response => {
+            console.log("[loadOffer] response: " + JSON.stringify(response));
+            loading.dismiss();
+
+            this.state = response;
+            // this.state = {
+            //     rows: response.rows,
+            //     discount: response.discount,
+            //     gift: response.gift,
+            //     amount: response.amount,
+            //     total_price: this.response.total_price,
+            //     total_price_o: this.response.total_price_o,
+            //     total_valoracion: response.total_valoracion,
+            // };
+
+            this.backgroundClass = "noOfferBackground";
+            this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
+            this.refreshRows(this.state.discount, this.state.gift, this.state.amount);
+
+            let toast = this.toastCtrl.create({
+                message: 'Oferta cargada',
+                duration: 1500,
+                cssClass: 'toast'
+            });
+            toast.present();
+        })
+        .catch( err => {
+            console.log("[loadOffer] error: " + JSON.stringify(err));
+            loading.dismiss();
+            let alert = this.alertCtrl.create({
+                title: 'Abrir oferta',
+                subTitle: 'Se ha producido un error al abrir la oferta. Inténtelo de nuevo o consulte con el Administrador. ',
+                buttons: ['Aceptar']
+            });
+            alert.present();
+        });
+    }
+
+    dialogSaveOffer() {
+        var saveDialog = this.alertCtrl.create({
+            title: 'Guardar oferta',
+            message: 'Asigne un nombre para identificar a la oferta:',
+            inputs: [
+                {
+                    name: 'name',
+                    placeholder: 'Nombre identificativo',
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Guardar',
+                    handler: (data) => {
+                        this.confirmSaveOffer(data.name);
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                }
+            ]
+        });
+        saveDialog.present();
+    }
+
+    confirmSaveOffer(name) {
+        this.restService.checkOfferName(name).then( response => {
+            if(response) {
+                console.log("[confirmSaveOffer] response: " + JSON.stringify(response));
+                this.confirmUpdateOffer(response, name);
+            } else {
+                console.log("[confirmSaveOffer] xxxxx: " + JSON.stringify(response));
+                this.saveOffer(name);
+            }
+
+            let toast = this.toastCtrl.create({
+                message: 'Oferta guardada',
+                duration: 1500,
+                cssClass: 'toast'
+            });
+            toast.present();
+        })
+        .catch( err => {
+            console.log("[confirmSaveOffer] error: " + JSON.stringify(err));
+            let alert = this.alertCtrl.create({
+                title: 'Guardar oferta',
+                subTitle: 'Se ha producido un error al guardar la oferta. Inténtelo de nuevo o consulte con el Administrador. ',
+                buttons: ['Aceptar']
+            });
+            alert.present();
+        });
+    }
+
+    confirmUpdateOffer(id, name) {
+        var confirm = this.alertCtrl.create({
+            title: 'Sobreescribir oferta guardada',
+            message: 'Se va a proceder a sobreescribir la oferta ' + name + '. ¿Desea continuar?',
+            buttons: [
+                {
+                    text: 'Sobreescribir',
+                    handler: () => {
+                        this.updateOffer(id, name);
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                }
+            ]
+        });
+        confirm.present();
+    }
+
+    updateOffer(id, name) {
+        var offer = new FormData();
+
+        offer.append('name', name);
+        offer.append('discount', String(this.state.discount));
+        offer.append('gift', String(this.state.gift));
+        offer.append('amount', String(this.state.amount));
+        offer.append('lines', JSON.stringify(this.state.rows));
+        offer.append('_method', 'PATCH');
+
+        this.restService.updateOffer(id, offer).then( response => {
+            let toast = this.toastCtrl.create({
+                message: 'Oferta actualizada',
+                duration: 1500,
+                cssClass: 'toast'
+            });
+            toast.present();
+        })
+        .catch( err => {
+            console.log("[updateOffer] error: " + JSON.stringify(err));
+            let alert = this.alertCtrl.create({
+                title: 'Actualizar oferta',
+                subTitle: 'Se ha producido un error al actualizar la oferta guardada. Inténtelo de nuevo o consulte con el Administrador. ',
+                buttons: ['Aceptar']
+            });
+            alert.present();
+        });
+    }
+
+    saveOffer(name) {
+        var offer = {
+            name: name,
+            discount: this.state.discount,
+            gift: this.state.gift,
+            amount: this.state.amount,
+            lines: JSON.stringify(this.state.rows),
+        };
+
+        this.restService.saveOffer(name, offer).then( response => {
+            let toast = this.toastCtrl.create({
+                message: 'Oferta guardada',
+                duration: 1500,
+                cssClass: 'toast'
+            });
+            toast.present();
+        })
+        .catch( err => {
+            console.log("[saveOffer] error: " + JSON.stringify(err));
+            let alert = this.alertCtrl.create({
+                title: 'Guardar oferta',
+                subTitle: 'Se ha producido un error al guardar la oferta. Inténtelo de nuevo o consulte con el Administrador. ',
+                buttons: ['Aceptar']
+            });
+            alert.present();
+        });
+    }
+
+    formatPrice(price, locale = 'es-ES', currency = 'EUR', minimumFractionDigits = 2) {
+        if (isNaN(price)) {
+            return price;
+	    }
+        return parseFloat(price).toLocaleString(locale, {style: 'currency', currency, minimumFractionDigits});
+    }
 }

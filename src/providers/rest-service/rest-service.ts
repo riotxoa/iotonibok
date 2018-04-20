@@ -47,10 +47,10 @@ export class RestServiceProvider {
             );
         });
     }
+
     getRowValoracion(row) {
         return new Promise(resolve => {
-            var param = btoa(JSON.stringify(row))
-            this.http.get(apiUrl + 'valoracion/row/' + param, {
+            this.http.post(apiUrl + 'valoracion/row', row, {
                 headers: this.headers,
             }).subscribe(
                 data => {
@@ -64,8 +64,7 @@ export class RestServiceProvider {
     }
     getOfferValoracion(offer) {
         return new Promise(resolve => {
-            var param = btoa(JSON.stringify(offer))
-            this.http.get(apiUrl + 'valoracion/offer/' + param, {
+            this.http.post(apiUrl + 'valoracion/offer', offer, {
                 headers: this.headers,
             }).subscribe(
                 data => {
@@ -99,6 +98,96 @@ export class RestServiceProvider {
             }, (err) => {
                 reject(err);
             });
+        });
+    }
+
+    getOffers() {
+        return new Promise(resolve => {
+            this.http.get(apiUrl + 'offers', {
+                headers: this.headers,
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+
+    deleteOffer(id) {
+        return new Promise(resolve => {
+            this.http.delete(apiUrl + 'offers/' + id, {
+                headers: this.headers,
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+
+    openOffer(id) {
+        return new Promise( (resolve, reject) => {
+            this.http.get(apiUrl + 'offers/' + id + '/id', {
+                headers: this.headers
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+
+    checkOfferName(name) {
+        return new Promise( (resolve, reject) => {
+            this.http.get(apiUrl + 'offers/' + name + '/name', {
+                headers: this.headers
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+
+    updateOffer(id, offer) {
+        return new Promise( (resolve, reject) => {
+            this.http.post(apiUrl + 'offers/' + id, offer, {
+                headers: this.headers
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+
+    saveOffer(name, offer) {
+        return new Promise( (resolve, reject) => {
+            this.http.post(apiUrl + 'offers', offer, {
+                headers: this.headers
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
         });
     }
 }
