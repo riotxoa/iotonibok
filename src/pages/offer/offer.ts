@@ -14,22 +14,23 @@ import { OpenOfferModalPage } from '../open-offer-modal/open-offer-modal';
  * Ionic pages and navigation.
  */
 
+ interface State {
+     rows: any[],
+     discount: number,
+     gift: number,
+     amount: number,
+     total_price: number,
+     total_price_o: number,
+     total_valoracion: number,
+ }
+
 @IonicPage()
 @Component({
   selector: 'page-offer',
   templateUrl: 'offer.html',
 })
 export class OfferPage {
-
-    state = {
-        rows: [],
-        discount: 0,
-        gift: 0,
-        amount: 1,
-        total_price: 0,
-        total_price_o: 0,
-        total_valoracion: undefined,
-    };
+    state: State;
     products;
     searchProducts;
     selected;
@@ -53,6 +54,15 @@ export class OfferPage {
     }
 
     initializeState() {
+        this.state = {
+            rows: [],
+            discount: 0,
+            gift: 0,
+            amount: 1,
+            total_price: 0,
+            total_price_o: 0,
+            total_valoracion: undefined,
+        };
         this.getProducts();
     }
 
@@ -160,7 +170,6 @@ export class OfferPage {
 
         rows.map((val,key) => {
             var row = this.state.rows[key];
-            // var rowDiscount = (row.discount ? row.discount : discount);
 
             row.price_o = this.getPriceWithDiscount(row.product.price, row.discount);
 
@@ -312,7 +321,7 @@ export class OfferPage {
     }
 
     updateValoracionOffer() {
-        this.restService.getOfferValoracion(this.state).then( response => {
+        this.restService.getOfferValoracion(this.state).then( (response: number) => {
             this.totalClass = (response ? "accepted" : "rejected");
             this.state.total_valoracion = response;
 
@@ -384,20 +393,11 @@ export class OfferPage {
         });
         loading.present();
 
-        this.restService.openOffer(id).then( response => {
+        this.restService.openOffer(id).then( (response: State) => {
             console.log("[loadOffer] response: " + JSON.stringify(response));
             loading.dismiss();
 
             this.state = response;
-            // this.state = {
-            //     rows: response.rows,
-            //     discount: response.discount,
-            //     gift: response.gift,
-            //     amount: response.amount,
-            //     total_price: this.response.total_price,
-            //     total_price_o: this.response.total_price_o,
-            //     total_valoracion: response.total_valoracion,
-            // };
 
             this.backgroundClass = "noOfferBackground";
             this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
