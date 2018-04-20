@@ -29,7 +29,6 @@ export class OfferPage {
         total_price_o: 0,
         total_valoracion: undefined,
     };
-    // state;
     products;
     searchItems;
     selected;
@@ -102,10 +101,8 @@ export class OfferPage {
             amount: 1,
             product: {
                 id: null,
-                reference: '',
-                name: '',
-                // margin: null,
-                // cost: null,
+                reference: undefined,
+                name: undefined,
                 price_unit: null,
                 price: null,
                 file: null,
@@ -117,24 +114,20 @@ export class OfferPage {
             selected: false,
         }
 
-
         row.product.id = product.id;
         row.product.reference = product.reference;
         row.product.name = product.description;
-        // row.product.margin = product.margin;
-        // row.product.cost = product.cost;
         row.product.price_unit = parseFloat(product.price).toFixed(2);
         row.product.price = (product.price * row.amount).toFixed(2);
-        row.price_o = this.getPriceWithDiscount(product.price, this.state.discount);
+        row.price_o = this.getPriceWithDiscount(product.price, row.discount);
         row.product.file = ((product.file != "" && product.file != 0) ? 1 : 0);
-
-        // var row_margin = (row.price_o - (product.cost * row.amount))*100 / row.price_o;
-        // row.authorized = (row_margin >= product.margin ? 1 : 0);
 
         this.restService.getRowValoracion(row).then( response => {
             row.authorized = response;
+
             this.addRow(row);
         });
+
     }
 
     getPriceWithDiscount(price, discount) {
@@ -154,9 +147,9 @@ export class OfferPage {
 
         rows.map((val,key) => {
             var row = this.state.rows[key];
-            var rowDiscount = (row.discount ? row.discount : discount);
+            // var rowDiscount = (row.discount ? row.discount : discount);
 
-            row.price_o = this.getPriceWithDiscount(row.product.price, rowDiscount);
+            row.price_o = this.getPriceWithDiscount(row.product.price, row.discount);
 
             total_price += parseFloat(row.product.price);
             total_price_o += parseFloat(row.price_o);
@@ -166,7 +159,7 @@ export class OfferPage {
         total_price_o = total_price_o * amount;
 
         this.state.total_price = total_price;
-        this.state.total_price_o = total_price_o;
+        this.state.total_price_o = parseFloat(this.getPriceWithDiscount(total_price_o, this.state.discount));
         this.state.total_valoracion = total_valoracion;
 
         this.updateValoracionOffer();
@@ -290,12 +283,18 @@ export class OfferPage {
     incrTotals(data) {
         this.state.total_price += parseFloat(data.product.price);
         this.state.total_price_o += parseFloat(data.price_o);
+
+        this.refreshRows(this.state.discount, this.state.gift, this.state.amount);
+
         this.updateValoracionOffer();
     }
 
     decrTotals(data) {
         this.state.total_price -= parseFloat(data.product.price);
         this.state.total_price_o -= parseFloat(data.price_o);
+
+        this.refreshRows(this.state.discount, this.state.gift, this.state.amount);
+
         this.updateValoracionOffer();
     }
 
