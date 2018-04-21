@@ -111,7 +111,7 @@ export class SendOfferModalPage {
                 final_price: val.product.price,
                 discount: val.discount,
                 gift: val.gift,
-                authorized: val.authorized
+                authorized: (val.valoracion ? val.valoracion : 0)
             };
 
             return line;
