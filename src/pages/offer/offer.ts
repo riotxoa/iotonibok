@@ -553,10 +553,10 @@ export class OfferPage {
         });
     }
 
-    formatPrice(price, locale = 'es-ES', currency = 'EUR', minimumFractionDigits = 2) {
+    formatPrice(price, currency = 'EUR', locale = 'es-ES', minimumFractionDigits = 2) {
         if (isNaN(price)) {
             return price;
 	    }
-        return parseFloat(price).toLocaleString(locale, {style: 'currency', currency, minimumFractionDigits});
+        return parseFloat(price).toLocaleString(locale, {style: 'decimal', minimumFractionDigits});
     }
 }
