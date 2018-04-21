@@ -141,4 +141,11 @@ export class SendOfferModalPage {
         this.viewCtrl.dismiss();
     }
 
+    formatPrice(price, currency = 'EUR', locale = 'es-ES', minimumFractionDigits = 2) {
+        if (isNaN(price)) {
+            return price;
+	    }
+        return parseFloat(price).toLocaleString(locale, {style: 'decimal', minimumFractionDigits});
+    }
+
 }

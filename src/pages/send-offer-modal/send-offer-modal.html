@@ -88,10 +88,10 @@
                                 {{ row.product.reference }}
                             </ion-col>
                             <ion-col class="price" col-3 justify-content-end>
-                                {{ row.product.price }}
+                                {{ formatPrice(row.product.price) }}
                             </ion-col>
                             <ion-col class="price_o col {{ row.valoracion ? 'accepted' : 'rejected' }}" col-3 justify-content-end>
-                                {{ row.price_o }}
+                                {{ formatPrice(row.price_o) }}
                             </ion-col>
                         </ion-row>
                         <ion-row>
@@ -107,9 +107,9 @@
                     </ion-card-content>
                 </ion-card>
                 <ion-card class="totals">
-                    <span class="price_o {{ offer.total_valoracion ? 'accepted' : 'rejected' }}">{{ offer.total_price_o.toFixed(2) }}&nbsp;&euro;</span>
+                    <span class="price_o {{ offer.total_valoracion ? 'accepted' : 'rejected' }}">{{ formatPrice(offer.total_price_o) }}&nbsp;&euro;</span>
                     <br/>
-                    <span class="price">{{ offer.total_price.toFixed(2) }}&nbsp;&euro;</span>
+                    <span class="price">{{ formatPrice(offer.total_price) }}&nbsp;&euro;</span>
                     <br/>
                     <ion-col class="amount" col-6 justify-content-end>
                         <ion-icon name="md-ribbon"></ion-icon>{{ offer.gift }}
