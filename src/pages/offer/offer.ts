@@ -67,6 +67,11 @@ export class OfferPage {
     }
 
     getProducts() {
+        let loading = this.loadingCtrl.create({
+            content: 'Cargando productos...'
+        });
+        loading.present();
+
         this.restService.getProducts().then( data => {
 
             this.products = JSON.parse(JSON.stringify(data));
@@ -98,6 +103,8 @@ export class OfferPage {
                 this.backgroundClass = "offerBackground";
                 this.totalClass = "undefined";
             }
+
+            loading.dismiss();
         });
     }
 
