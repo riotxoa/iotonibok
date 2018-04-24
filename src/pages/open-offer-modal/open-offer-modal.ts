@@ -58,11 +58,11 @@ export class OpenOfferModalPage {
                 return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
         } else {
-            this.clearsearchResults();
+            this.clearSearchResults();
         }
     }
 
-    clearsearchResults() {
+    clearSearchResults() {
         this.searchResults = this.offers;
     }
 
