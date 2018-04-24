@@ -190,4 +190,34 @@ export class RestServiceProvider {
             );
         });
     }
+
+    getKits() {
+        return new Promise(resolve => {
+            this.http.get(apiUrl + 'kits', {
+                headers: this.headers,
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        });
+    }
+
+    getKit(id) {
+        return new Promise(resolve => {
+            this.http.get(apiUrl + `kits/${id}/id`, {
+                headers: this.headers,
+            }).subscribe(
+                data => {
+                    resolve(data);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        });
+    }
 }

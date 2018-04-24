@@ -1,3 +1,40 @@
 page-kits {
+    ion-header {
+        ion-title {
+            display:inline-block;
+            line-height:100%;
+            text-align:left;
+            text-transform:capitalize;
+            vertical-align:middle;
+            width:20%;
+        }
+        .detail ion-title {
+            font-size:23px;
+            text-align:center;
+            width:100%;
+        }
+        .detail ion-title button {
+            font-size:20px;
+            left:-15px;
+            position: absolute;
+        }
+        .detail ion-title:first-child {
+            vertical-align:top;
+        }
+        .detail ion-title:last-child {
+            vertical-align:bottom;
+        }
+        .detail ion-title .toolbar-title {
+            color:#009688;
+            font-size:16px;
+        }
+        ion-searchbar {
+            display:inline-block;
+            width:75%;
+        }
+    }
 
+    .kitline ion-label {
+        margin:5px 0;
+    }
 }

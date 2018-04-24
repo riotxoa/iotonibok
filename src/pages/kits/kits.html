@@ -6,13 +6,35 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar *ngIf="!selectedKit.lines.length">
     <ion-title>kits</ion-title>
+    <ion-searchbar (input)="getItems($event)" (ionClear)="clearSearchResults()"></ion-searchbar>
+  </ion-navbar>
+
+  <ion-navbar *ngIf="selectedKit.lines.length" class="detail">
+    <ion-title>
+        <button ion-button icon-left clear (click)="goBack()">
+            <ion-icon name="arrow-back"></ion-icon>
+        </button>
+        {{ selectedKit.name}}
+    </ion-title>
+    <ion-title>{{ selectedKit.description }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+    <ion-list *ngIf="!selectedKit.lines.length">
+        <ion-item *ngFor="let item of searchResults" (click)="selectItem(item.id)" class="searchItem">
+            {{ item.name }}
+        </ion-item>
+    </ion-list>
 
+    <ion-list *ngIf="selectedKit.lines.length">
+        <ion-item *ngFor="let line of selectedKit.lines" class="kitline">
+            <p>{{ line.label }}:</p>
+            <h2><small style="color:#029587">{{ line.amount}}x</small> {{ line.reference }}</h2>
+        </ion-item>
+    </ion-list>
 </ion-content>
