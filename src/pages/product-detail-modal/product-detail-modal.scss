@@ -1,0 +1,30 @@
+page-product-detail-modal {
+    .scroll-content {
+        padding:16px!important;
+    }
+    ion-card-title,
+    .card-subtitle {
+        text-align:center;
+    }
+    ion-card-title {
+        color:brown!important;
+        font-weight:bold;
+        margin:0!important;
+    }
+    .card-subtitle {
+        color:gray;
+    }
+    ion-col {
+        text-align:center;
+    }
+    .colTitle * {
+        color:gray;
+        font-weight:bold;
+    }
+    hr {
+        margin:15px 0;
+    }
+    button.button-full-md {
+        margin-top:15px;
+    }
+}

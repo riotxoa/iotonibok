@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { OfferPage } from '../offer/offer';
 import { KitsPage } from '../kits/kits';
+import { ProductsPage } from '../products/products';
 
 /**
  * Generated class for the MainPage page.
@@ -26,6 +27,10 @@ export class MainPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MainPage');
+  }
+
+  productos() {
+      this.navCtrl.push(ProductsPage);
   }
 
   logout() {

@@ -13,6 +13,8 @@ import { OfferLineModalPage } from '../pages/offer-line-modal/offer-line-modal';
 import { OfferDiscountModalPage } from '../pages/offer-discount-modal/offer-discount-modal';
 import { SendOfferModalPage } from '../pages/send-offer-modal/send-offer-modal';
 import { OpenOfferModalPage } from '../pages/open-offer-modal/open-offer-modal';
+import { ProductsPage } from '../pages/products/products';
+import { ProductDetailModalPage } from '../pages/product-detail-modal/product-detail-modal';
 
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { Clipboard } from '@ionic-native/clipboard';
@@ -34,6 +36,8 @@ import { RestServiceProvider } from '../providers/rest-service/rest-service';
     OfferDiscountModalPage,
     SendOfferModalPage,
     OpenOfferModalPage,
+    ProductsPage,
+    ProductDetailModalPage,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +56,8 @@ import { RestServiceProvider } from '../providers/rest-service/rest-service';
     OfferDiscountModalPage,
     SendOfferModalPage,
     OpenOfferModalPage,
+    ProductsPage,
+    ProductDetailModalPage,
   ],
   providers: [
     StatusBar,

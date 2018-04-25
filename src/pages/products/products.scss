@@ -1,0 +1,38 @@
+page-products {
+    .modalBackground::before {
+        color:darkgray;
+        content:"Introduzca los primeros caracteres de una referencia y seleccione un producto";
+        font-size:18px;
+        left:50%;
+        line-height:1.5;
+        position:absolute;
+        text-align:center;
+        top:50%;
+        transform:translateX(-50%) translateY(-50%);
+        width:75%;
+    }
+    .searchItem {
+        font-size:12px;
+    }
+    ion-content {
+        .label {
+            margin:10px 0;
+        }
+        .item {
+            h2 {
+                color:brown;
+                font-size:14px;
+                font-weight:bold;
+                line-height:20px;
+                .price {
+                    color:green;
+                    float:right;
+                    font-size:12px;
+                }
+            }
+            p {
+                font-size:12px;
+            }
+        }
+    }
+}
