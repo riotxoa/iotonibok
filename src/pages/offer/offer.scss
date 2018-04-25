@@ -1,4 +1,7 @@
 page-offer {
+    .scroll-content {
+        padding:16px 5px!important;
+    }
     ion-title {
         display:inline-block;
         left:0;
@@ -47,10 +50,12 @@ page-offer {
     ion-card-content .price {
         color:darkgray;
         text-align:right;
+        word-wrap:initial;
     }
     ion-card-content .price_o {
         font-weight:bold;
         text-align:right;
+        word-wrap:initial;
     }
     ion-card-content .price_o.accepted {
         color:green;
