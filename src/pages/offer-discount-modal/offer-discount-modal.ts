@@ -29,21 +29,21 @@ export class OfferDiscountModalPage {
     }
 
     updateAmount(ev) {
-        var val = ev.target.value;
+        var val = (ev.target.value ? parseInt(ev.target.value) : 1);
         if( val > 0 ) {
             this.offer.amount = val;
         }
     }
 
     updateDiscount(ev) {
-        var val = ev.target.value;
+        var val = (ev.target.value ? parseInt(ev.target.value) : 0);
         if( val > -1 ) {
             this.offer.discount = val;
         }
     }
 
     updateGift(ev) {
-        var val = ev.target.value;
+        var val = (ev.target.value ? parseInt(ev.target.value) : 0);
         if( val > -1 ) {
             this.offer.gift = val;
         }

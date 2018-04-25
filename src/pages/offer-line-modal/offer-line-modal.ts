@@ -28,7 +28,7 @@ export class OfferLineModalPage {
         this.globalDiscount = navParams.data.discount;
         this.rowDiscount = this.row.discount;
         this.getPriceWithDiscount = navParams.data.calcPrice;
-        this.cssClass = (this.row.authorized ? "accepted" : "rejected");
+        this.cssClass = (this.row.valoracion ? "accepted" : "rejected");
     }
 
     ionViewDidLoad() {
@@ -36,7 +36,7 @@ export class OfferLineModalPage {
     }
 
     updateAmount(ev) {
-        var val = ev.target.value;
+        var val = (ev.target.value ? parseInt(ev.target.value) : 1);
         if( val > 0 ) {
             this.row.amount = val;
             this.updateRow();
@@ -44,7 +44,7 @@ export class OfferLineModalPage {
     }
 
     updateDiscount(ev) {
-        var val = ev.target.value;
+        var val = (ev.target.value ? parseInt(ev.target.value) : 0);
         if( val > -1 ) {
             this.row.discount = val;
             this.updateRow();
@@ -52,7 +52,7 @@ export class OfferLineModalPage {
     }
 
     updateGift(ev) {
-        var val = ev.target.value;
+        var val = (ev.target.value ? parseInt(ev.target.value) : 0);
         if( val > -1 ) {
             this.row.gift = val;
             this.updateRow();
