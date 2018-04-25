@@ -244,12 +244,6 @@ export class OfferPage {
         offerDiscountModal.present();
     }
 
-    viewSelectedRow() {
-        var row = this.state.rows.find( r => r.selected == true );
-
-        this.viewRowDetail( row.order );
-    }
-
     selectAllRows() {
         this.state.rows.map((val,key) => this.state.rows[key].selected = true);
 
