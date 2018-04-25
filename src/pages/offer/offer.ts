@@ -79,7 +79,9 @@ export class OfferPage {
             this.searchProducts = this.products.map((val, key) => {
                 let item = {
                     index: key,
-                    reference: val.reference + " (" + val.description + ")",
+                    reference: val.reference,
+                    description: val.description,
+                    price: this.formatPrice(val.price),
                 };
                 return item;
             });
