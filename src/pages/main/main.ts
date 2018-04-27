@@ -35,6 +35,7 @@ export class MainPage {
 
   logout() {
       localStorage.removeItem('userData');
+      sessionStorage.clear();
       this.navCtrl.popToRoot();
   }
 
