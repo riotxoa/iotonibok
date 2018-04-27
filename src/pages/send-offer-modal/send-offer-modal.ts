@@ -85,7 +85,7 @@ export class SendOfferModalPage {
     }
 
     initializeSearchItems(items) {
-        this.searchItems = this.items.map((val, key) => {
+        this.searchItems = items.map((val, key) => {
             let item = {
                 index: key,
                 reference: val.name + " (" + val.address + ")",
