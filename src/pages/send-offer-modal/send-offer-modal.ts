@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, Slides, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Slides, AlertController, LoadingController } from 'ionic-angular';
 import { RestServiceProvider } from '../../providers/rest-service/rest-service';
 
 /**
@@ -25,7 +25,14 @@ export class SendOfferModalPage {
     searchResults;
     @ViewChild(Slides) slides: Slides;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public restService: RestServiceProvider, public alertCtrl: AlertController) {
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public viewCtrl: ViewController,
+        public restService: RestServiceProvider,
+        public alertCtrl: AlertController,
+        public loadingCtrl: LoadingController,
+    ) {
         this.offer = navParams.data.offer;
         this.getClients();
     }
@@ -57,17 +64,33 @@ export class SendOfferModalPage {
     }
 
     getClients() {
-        this.restService.getClients().then( data => {
-            this.items = JSON.parse(JSON.stringify(data));
+        let loading = this.loadingCtrl.create({
+            content: 'Cargando clientes...'
+        });
+        loading.present();
 
-            this.searchItems = this.items.map((val, key) => {
-                let item = {
-                    index: key,
-                    reference: val.name + " (" + val.address + ")",
-                };
-                return item;
+        var items = sessionStorage.getItem('clients');
+        if(items) {
+            this.items = JSON.parse(items);
+            this.initializeSearchItems(this.items);
+            loading.dismiss();
+        } else {
+            this.restService.getClients().then( data => {
+                sessionStorage.setItem('clients', JSON.stringify(data));
+                this.items = JSON.parse(JSON.stringify(data));
+                this.initializeSearchItems(this.items);
+                loading.dismiss();
             });
-            return data;
+        }
+    }
+
+    initializeSearchItems(items) {
+        this.searchItems = this.items.map((val, key) => {
+            let item = {
+                index: key,
+                reference: val.name + " (" + val.address + ")",
+            };
+            return item;
         });
     }
 
