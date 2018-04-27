@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { AlertController, IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 
 import { Clipboard } from '@ionic-native/clipboard';
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { MainPage } from '../main/main';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -19,6 +20,9 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  @ViewChild('username') userInput;
+  @ViewChild('password') passInput;
+
   responseData: any;
   uuid = {
       value: "XXX"
@@ -42,6 +46,8 @@ export class LoginPage {
       public navPar: NavParams,
       private clipboard: Clipboard,
       public toastCtrl: ToastController,
+      private keyboard: Keyboard,
+      public loadingCtrl: LoadingController,
   ) {
       var uData = JSON.parse(localStorage.getItem('userData'));
       if(uData) {
@@ -55,10 +61,37 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
-
-    this.authService.postData(this.uuid, 'api/login').then((result) => {
-        this.deviceChecked = (result ? true : false);
+    let loading = this.loadingCtrl.create({
+        content: 'Comprobando dispositivo...'
     });
+    loading.onDidDismiss( () => {
+        if(this.userData.username.length > 0)
+            setTimeout(() => {
+                this.passInput.setFocus();
+            },150);
+        else
+            setTimeout(() => {
+                this.userInput.setFocus();
+            },150);
+    });
+    loading.present();
+
+    this.authService.postData(this.uuid, 'api/login').then(
+        (result) => {
+            this.deviceChecked = (result ? true : false);
+            loading.dismiss();
+        },
+        (error) => {
+            console.log("[ionViewDidLoad - login.ts] error: " + error);
+            loading.dismiss();
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: 'Se ha producido un error al comprobar el dispositivo: ' + error,
+                buttons: ['Aceptar'],
+            });
+            alert.present();
+        }
+    );
   }
 
   login() {
@@ -90,7 +123,15 @@ export class LoginPage {
       let alert = this.alertCtrl.create({
           title: 'Autenticación fallida',
           subTitle: 'Introduzca un nombre de usuario y contraseña correctos',
-          buttons: ['Aceptar']
+          buttons: [{
+              text: 'Aceptar',
+              role: 'cancel',
+              handler: () => {
+                  setTimeout(() => {
+                      this.userInput.setFocus();
+                  },500);
+              }
+          },],
       });
       alert.present();
   }

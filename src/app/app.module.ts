@@ -21,6 +21,7 @@ import { Clipboard } from '@ionic-native/clipboard';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Keyboard } from '@ionic-native/keyboard';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { RestServiceProvider } from '../providers/rest-service/rest-service';
 
@@ -61,7 +62,7 @@ import { RestServiceProvider } from '../providers/rest-service/rest-service';
   ],
   providers: [
     StatusBar,
-    SplashScreen, AuthServiceProvider,
+    SplashScreen, AuthServiceProvider, Keyboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
     RestServiceProvider,
