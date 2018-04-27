@@ -5,4 +5,13 @@ page-open-offer-modal {
     ion-icon {
         float:right;
     }
+
+    /* iOS styles */
+    ion-navbar .text-ios-primary {
+        color:white;
+        font-size:14px;
+    }
+    .toolbar-ios ion-title {
+        padding:0;
+    }
 }
