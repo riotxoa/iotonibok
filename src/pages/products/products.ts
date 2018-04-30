@@ -29,15 +29,10 @@ export class ProductsPage {
         public restService: RestServiceProvider,
         public loadingCtrl: LoadingController,
     ) {
-        this.initializeState();
         this.products = [];
         this.searchResults = [];
         this.selected = 0;
 
-    }
-
-    initializeState() {
-        this.getProducts();
     }
 
     getProducts() {
@@ -46,30 +41,41 @@ export class ProductsPage {
         });
         loading.present();
 
-        this.restService.getProducts().then( data => {
+        var ss_products = sessionStorage.getItem('products');
 
-            var products = JSON.parse(JSON.stringify(data));
-
-            this.products = products.map((val, key) => {
-                let item = {
-                    index: key,
-                    id: val.id,
-                    reference: val.reference,
-                    description: val.description,
-                    currency: val.currency,
-                    unit: val.unit,
-                    amount: val.amount,
-                    price: this.formatPrice(val.price),
-                };
-                return item;
-            });
-
+        if( ss_products ) {
+            var products = JSON.parse(ss_products);
+            this.initializeProducts(products);
             loading.dismiss();
+        } else {
+            this.restService.getProducts().then( data => {
+                sessionStorage.setItem('products', JSON.stringify(data));
+                var products = JSON.parse(JSON.stringify(data));
+                this.initializeProducts(products);
+                loading.dismiss();
+            });
+        }
+    }
+
+    initializeProducts(products) {
+        this.products = products.map((val, key) => {
+            let item = {
+                index: key,
+                id: val.id,
+                reference: val.reference,
+                description: val.description,
+                currency: val.currency,
+                unit: val.unit,
+                amount: val.amount,
+                price: this.formatPrice(val.price),
+            };
+            return item;
         });
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad ProductsPage');
+        this.getProducts();
     }
 
     getItems(ev) {

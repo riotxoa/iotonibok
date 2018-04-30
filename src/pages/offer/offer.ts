@@ -50,7 +50,6 @@ export class OfferPage {
         this.products = [];
         this.searchProducts = [];
         this.selected = 0;
-
     }
 
     initializeState() {
@@ -63,7 +62,6 @@ export class OfferPage {
             total_price_o: 0,
             total_valoracion: undefined,
         };
-        this.getProducts();
     }
 
     getProducts() {
@@ -73,45 +71,55 @@ export class OfferPage {
         loading.present();
 
         this.restService.getProducts().then( data => {
-
+            sessionStorage.setItem('products', JSON.stringify(data));
             this.products = JSON.parse(JSON.stringify(data));
-
-            this.searchProducts = this.products.map((val, key) => {
-                let item = {
-                    index: key,
-                    reference: val.reference,
-                    description: val.description,
-                    price: this.formatPrice(val.price),
-                };
-                return item;
-            });
-
-            if(localStorage.getItem('state')) {
-                this.state = JSON.parse(localStorage.getItem('state'));
-                if( this.state.rows.length ) {
-                    this.backgroundClass = "noOfferBackground";
-                    this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
-                }
-            } else {
-                this.state = {
-                    rows: [],
-                    discount: 0,
-                    gift: 0,
-                    amount: 1,
-                    total_price: 0,
-                    total_price_o: 0,
-                    total_valoracion: undefined,
-                };
-                this.backgroundClass = "offerBackground";
-                this.totalClass = "undefined";
-            }
-
+            this.initializeSearchProducts(this.products);
+            this.getStateFromLocalStorage();
             loading.dismiss();
         });
     }
 
+    initializeSearchProducts (products) {
+        this.searchProducts = products.map((val, key) => {
+            let item = {
+                index: key,
+                id: val.id,
+                reference: val.reference,
+                description: val.description,
+                currency: val.currency,
+                unit: val.unit,
+                amount: val.amount,
+                price: this.formatPrice(val.price),
+            };
+            return item;
+        });
+    }
+
+    getStateFromLocalStorage() {
+        if(localStorage.getItem('state')) {
+            this.state = JSON.parse(localStorage.getItem('state'));
+            if( this.state.rows.length ) {
+                this.backgroundClass = "noOfferBackground";
+                this.totalClass = (this.state.total_valoracion ? "accepted" : "rejected");
+            }
+        } else {
+            this.state = {
+                rows: [],
+                discount: 0,
+                gift: 0,
+                amount: 1,
+                total_price: 0,
+                total_price_o: 0,
+                total_valoracion: undefined,
+            };
+            this.backgroundClass = "offerBackground";
+            this.totalClass = "undefined";
+        }
+    }
+
     ionViewDidLoad() {
         console.log('ionViewDidLoad OfferPage');
+        this.getProducts();
     }
 
     presentSearchProductModal() {
@@ -397,7 +405,6 @@ export class OfferPage {
         loading.present();
 
         this.restService.openOffer(id).then( (response: State) => {
-            console.log("[loadOffer] response: " + JSON.stringify(response));
             loading.dismiss();
 
             this.state = response;
@@ -454,10 +461,8 @@ export class OfferPage {
     confirmSaveOffer(name) {
         this.restService.checkOfferName(name).then( response => {
             if(response) {
-                console.log("[confirmSaveOffer] response: " + JSON.stringify(response));
                 this.confirmUpdateOffer(response, name);
             } else {
-                console.log("[confirmSaveOffer] xxxxx: " + JSON.stringify(response));
                 this.saveOffer(name);
             }
 
