@@ -89,11 +89,11 @@ export class ProductsPage {
                 // return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
 
-            if( results.length > 200 ) {
-                results = results.slice(0,199);
+            if( results.length > 150 ) {
+                results = results.slice(0,149);
                 results.push({
                     reference: "Escriba más caracteres...",
-                    description: "Se muestra un máximo de 200 resultados"
+                    description: "Se muestra un máximo de 150 resultados"
                 });
             }
             this.searchResults = results;
