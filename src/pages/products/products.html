@@ -20,7 +20,7 @@
 <ion-content padding class="modalBackground">
     <ion-list>
         <ion-item *ngFor="let item of searchResults" (click)="selectItem(item.index)" class="searchItem">
-            <h2>{{ item.reference }}<span class="price">{{ item.price }}&nbsp;&euro;</span></h2>
+            <h2>{{ item.reference }}<span class="price">{{ (item.price ? item.price + '&nbsp;&euro;' : '') }}</span></h2>
             <p>{{ item.description }}</p>
         </ion-item>
     </ion-list>

@@ -16,6 +16,7 @@ import { IonicPage, NavParams, Platform, ViewController } from 'ionic-angular';
 export class SearchProductModalPage {
 
     items;
+    references;
     searchResults;
 
     constructor(public platform: Platform, public navParams: NavParams, public viewCtrl: ViewController) {
@@ -28,14 +29,23 @@ export class SearchProductModalPage {
 
     getItems(ev) {
         // set val to the value of the ev target
-        var val = ev.target.value;
+        var val = ev.target.value.toLowerCase();
 
         // if the value is an empty string don't filter the items
         if (val && val.trim() != '') {
-            this.searchResults = this.items.filter((item) => {
-                return (item.reference.toLowerCase().indexOf(val.toLowerCase()) == 0);
+            var results = this.items.filter((item) => {
+                return (item.reference.toLowerCase().indexOf(val) == 0);
                 // return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-            })
+            });
+
+            if( results.length > 200 ) {
+                results = results.slice(0,199);
+                results.push({
+                    reference: "Escriba más caracteres...",
+                    description: "Se muestra un máximo de 200 resultados"
+                });
+            }
+            this.searchResults = results;
         } else {
             this.clearSearchResults();
         }

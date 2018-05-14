@@ -84,10 +84,19 @@ export class ProductsPage {
 
         // if the value is an empty string don't filter the items
         if (val && val.trim() != '') {
-            this.searchResults = this.products.filter((item) => {
-                return (item.reference.toLowerCase().indexOf(val.toLowerCase()) == 0);
+            var results = this.products.filter((item) => {
+                return (item.reference.toLowerCase().indexOf(val) == 0);
                 // return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
+
+            if( results.length > 200 ) {
+                results = results.slice(0,199);
+                results.push({
+                    reference: "Escriba más caracteres...",
+                    description: "Se muestra un máximo de 200 resultados"
+                });
+            }
+            this.searchResults = results;
         } else {
             this.clearSearchResults();
         }
