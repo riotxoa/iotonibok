@@ -83,7 +83,7 @@ export class ProductsPage {
         var val = ev.target.value;
 
         // if the value is an empty string don't filter the items
-        if (val && val.trim() != '') {
+        if (val && val.trim() != '' && val.length >= 2) {
             var results = this.products.filter((item) => {
                 return (item.reference.toLowerCase().indexOf(val) == 0);
                 // return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
