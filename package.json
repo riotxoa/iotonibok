@@ -54,7 +54,6 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-dreamover-uid": {},
       "cordova-plugin-uniquedeviceid": {},
       "cordova-clipboard": {}
     },
