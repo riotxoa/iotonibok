@@ -15,15 +15,20 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, uniqueDeviceID: UniqueDeviceID, alertCtrl: AlertController) {
     platform.ready().then(() => {
 
-      uniqueDeviceID.get()
-        .then((a: any) => {
-            localStorage.setItem('uuid', JSON.stringify(a));
-            this.rootPage = LoginPage;
-        })
-        .catch((error: any) => {
-            localStorage.setItem('uuid', JSON.stringify("YYY"));
-            this.rootPage = LoginPage;
-        });
+      if( platform.is('ios') || platform.is('ipad') || platform.is('iphone') ) {
+          localStorage.setItem('uuid', JSON.stringify("YYY"));
+          this.rootPage = LoginPage;
+      } else {
+          uniqueDeviceID.get()
+            .then((a: any) => {
+                localStorage.setItem('uuid', JSON.stringify(a));
+                this.rootPage = LoginPage;
+            })
+            .catch((error: any) => {
+                localStorage.setItem('uuid', JSON.stringify("YYY"));
+                this.rootPage = LoginPage;
+            });
+      }
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
